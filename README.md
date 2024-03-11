@@ -4,8 +4,11 @@ developed by Josh Williams and Xavier Spears. Project firewall is a fun tower de
 
 Project firewall takes the tower defense game where you are responsible for building towers to defend your base against waves of enemies.
 
+Built Using:
+Pygame http://pygametutorials.wikidot.com/start
+
 Prerequisites:
-python
-pygame 
-IDE that can run python projects (pycharm)
-install additional packages to IDE 
+install Python
+install Pygame 
+make sure you have an IDE that can run python projects (Pycharm)
+install additional packages to IDE (make sure IDE has package that handles Pygame) 
