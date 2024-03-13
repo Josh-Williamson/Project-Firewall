@@ -1,15 +1,15 @@
 import pygame
-from attributes import Create_and_Return_window, UpdateWindowAttributes
-from update_methods import updateDisplayScreen
-
+from classes import *
+from render import *
 
 pygame.init()
+FPS = pygame.time.Clock()
+FPS.tick(60)
 
-window = Create_and_Return_window()
-color = "red"
-UpdateWindowAttributes(window, color)
 
-pygame.display.set_caption("Project Firewall")
+
+window = Window()
+Window.CreateWindow(window)
 
 keep_game_running = True
 
@@ -18,9 +18,7 @@ while keep_game_running:
         if event.type == pygame.QUIT:
             keep_game_running = False
 
-    UpdateWindowAttributes(window, color="green")
-    updateDisplayScreen()
-
+    renderAll(window)
 
 else:
     pygame.quit()
