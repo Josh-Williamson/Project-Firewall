@@ -58,6 +58,9 @@ class TextBox:
 class Enemy(pygame.sprite.Sprite):
   def __init__(self, pos, image):
     pygame.sprite.Sprite.__init__(self)
+    hp = 0
+    damage = 0
+    speed = 0
     self.image = image
     self.rect = self.image.get_rect()
     self.rect.center = pos
