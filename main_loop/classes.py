@@ -4,7 +4,7 @@ import pygame
 
 class Window():
     def __init__(window):
-        window.width = 400
+        window.width = 800
         window.height = 600
         window.color = pygame.Color(255, 0, 255)
         window.caption = "Project Firewall"
@@ -53,6 +53,18 @@ class TextBox:
             textRectangleList.remove(textBox.textRectangle)
         else:
             return
+
+
+class Enemy(pygame.sprite.Sprite):
+  def __init__(self, pos, image):
+    pygame.sprite.Sprite.__init__(self)
+    self.image = image
+    self.rect = self.image.get_rect()
+    self.rect.center = pos
+
+  def render_enemy(self):
+      return self.image, self.rect
+
 
 """global """
 def RenderTextBox(window):
