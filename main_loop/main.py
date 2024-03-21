@@ -17,7 +17,7 @@ textbox.CreateTextBox(window)
 
 enemy_group = pygame.sprite.Group()
 
-enemy_image1 = pygame.image.load("assets/enemy/enemy_1.png").convert_alpha()
+enemy_image1 = pygame.image.load("../assets/enemy/enemy_1.png").convert_alpha()
 
 enemy_1 = Enemy((200, 200), enemy_image1, 0, 0, 0)
 enemy_group.add(enemy_1)
