@@ -9,5 +9,9 @@ Prerequisites:
 
     install Python
     install Pygame 
-    make sure you have an IDE that can run python projects (Pycharm)
-    install additional packages to IDE (make sure IDE has package that handles Pygame)
+
+To Run
+download project firewall and extract to your computer
+Open up to where you extracted
+Click RunProjectFirewall shortcut to start application
+enjoy
