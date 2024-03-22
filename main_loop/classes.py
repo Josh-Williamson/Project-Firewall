@@ -13,6 +13,7 @@ class Window:
         window.caption = "Project Firewall"
         window.display = pygame.display.set_mode((window.width, window.height))
 
+
     def CreateWindow(window):
         window.__init__()
         window.display = pygame.display.set_mode((window.width, window.height))
@@ -60,6 +61,19 @@ class TextBox:
             textRectangleList.remove(textBox.textRectangle)
         else:
             return
+
+
+class Enemy(pygame.sprite.Sprite):
+  def __init__(self, pos, image, hp, damage, speed):
+    pygame.sprite.Sprite.__init__(self)
+    hp = 0
+    damage = 0
+    speed = 0
+    self.image = image
+    self.rect = self.image.get_rect()
+    self.rect.center = pos
+
+
 
 """global """
 def RenderTextBox():

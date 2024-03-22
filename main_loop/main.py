@@ -1,7 +1,6 @@
 import pygame
 from pygame import event
 from classes import *
-from render import *
 from method import *
 
 
@@ -22,6 +21,13 @@ textbox = TextBox()
 textbox.CreateTextBox()
 #window.UpdateBackground(LEVEL)
 
+enemy_group = pygame.sprite.Group()
+
+enemy_image1 = pygame.image.load("../assets/enemy/enemy_1.png").convert_alpha()
+
+enemy_1 = Enemy((200, 200), enemy_image1, 0, 0, 0)
+enemy_group.add(enemy_1)
+
 keep_game_running = True
 while keep_game_running:
     for event in pygame.event.get():
@@ -39,8 +45,9 @@ while keep_game_running:
     gridmap.LoadImageList()
     gridmap.DrawTileImage()
 
+    enemy_group.draw(window.display)
 
-    updateDisplayScreen()
+    pygame.display.flip()
 
 else:
     pygame.quit()
