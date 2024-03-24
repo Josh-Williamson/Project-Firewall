@@ -29,6 +29,11 @@ enemy_image1 = pygame.image.load("assets/enemy/enemy_1.png").convert_alpha()
 enemy_1 = Enemy((200, 200), enemy_image1, 0, 0, 0)
 enemy_group.add(enemy_1)
 
+projectile_image1 = pygame.image.load("assets/projectile/projectile_1.png").convert_alpha()
+projectile_1 = Projectile((400,400), projectile_image1, 0, 0)
+
+tower_image1 = pygame.image.load("assets/tower/tower_1.png").convert_alpha()
+tower_1 = Tower((400, 200) , tower_image1, 0, projectile_1)
 
 keep_game_running = True
 
@@ -58,9 +63,9 @@ while keep_game_running:
     #gridmap.LoadImageList()
 
 
-
-
     enemy_group.draw(window.display)
+    projectile_1.draw(window.display)
+    tower_1.draw(window.display)
 
     pygame.event.pump()
     pygame.display.flip()
