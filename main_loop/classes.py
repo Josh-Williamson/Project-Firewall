@@ -1,8 +1,11 @@
 import pygame
+from pygame import event
+import csv
 
 TILE_TYPES = 1
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
+
 
 
 class Window:
@@ -93,17 +96,35 @@ class GridMap:
         self.imageList = []
         self.level = 0
 
-    def InitiateGridMap(self):
+        #self.highlighted = []
+        #self.highlightSprite = pygame.sprite.Sprite()
+
+    def InitiateGridMap(self, level):
+
+        i = 0
         self.gridMap.clear()
-        for row in range(self.rows):
-            row = [-1] * self.columns
-            self.gridMap.append(row)
+        file_name = "level_data/{level_num}.csv".format(level_num=level)
+        with open(file_name, "r") as f:
+            csv_reader = csv.reader(f)
+            for row in csv_reader:
+
+                for i in range(0, len(row)):
+                    if row[i] == "0":
+                        row[i] = 0
+                    else:
+                        row[i] = int(row[i])
+                    i += 1
+                self.gridMap.append(row)
+            print(self.gridMap)
+
+
 
     def LoadImageList(self):
-        for x in range(TILE_TYPES):
+        for x in range(TILE_TYPES + 1):
             image = pygame.image.load(f'assets/tile/{x}.png').convert_alpha()
             image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
             self.imageList.append(image)
+            print(x)
 
     def DrawGrid(self, window):
         for row in range(self.rows):
@@ -116,14 +137,64 @@ class GridMap:
     def DrawTileImage(self):
         for y, row in enumerate(self.gridMap):
             for x, tile in enumerate(row):
-                if tile >= 0:
-                    pygame.display.get_surface().blit(self.imageList[tile], (x * self.tileSize, y * self.tileSize))
+                if tile != 0:
+                    image = self.imageList[tile]
+                    pygame.display.get_surface().blit(image,
+                                                      (x * self.tileSize, y * self.tileSize))
 
-    #use in placement events and map drawing for tile locations
-    def updateTile(self, x, y, value):
-        for tile in range(0, self.rows):
-            self.gridMap[x - 1][y] = value
-        print(self.gridMap)
+    def getTilePosition(self):
+        pos = pygame.mouse.get_pos()
+        x = int(pos[0]/self.tileSize)
+        y = int(pos[1]/self.tileSize)
+        return [x, y]
+
+    def getTileValueAtMousePosition(self):
+        pos = self.getTilePosition()
+        row = pos[0]
+        column = pos[1]
+        if row <= self.rows and column <= self.columns:
+            tile = self.gridMap[row][column]
+        print("getTileValueAtMousePosition", tile)
+        return tile
+
+
+
+
+        #use in placement events and map drawing for tile locations
+    def updateTile(self, column, row, value):
+        print("value = ", value)
+        print("x, y=", column, row)
+        holder = self.gridMap
+        holder[row][column] = value
+        self.gridMap = holder
+        print("updateTile: ", self.gridMap[row][column])
+
+
+    def clickTile(self, left_mouse_button, right_mouse_button):
+        pos = self.getTilePosition()
+        tile = self.getTileValueAtMousePosition()
+        row = pos[0]
+        column = pos[1]
+
+        if left_mouse_button:
+            self.leftClickTile(tile, row, column)
+        if right_mouse_button:
+            self.rightClickTile(tile, row, column)
+
+    def leftClickTile(self, tile, row, column):
+        if tile >= TILE_TYPES:
+            return
+        elif pygame.MOUSEBUTTONDOWN:
+            self.updateTile(row, column, (tile + 1))
+            return
+
+    def rightClickTile(self, tile, row, column):
+        self.updateTile(row, column, 0)
+        print("right_click: ", self.gridMap[row][column])
+        return
+
+
+
 
 
 
