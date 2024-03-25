@@ -2,6 +2,7 @@ import pygame
 import csv
 from classes import *
 
+pygame.init()
 
 """Demo method for GameLoop functionality"""
 def purplePulse(window):
@@ -17,25 +18,14 @@ def purplePulse(window):
         return
 
 
-#def DemoEvents(window, textbox, gridmap):
-#   for event in pygame.event.get():
-#
-#       if event.type == pygame.KEYDOWN:
-#          textbox.RemoveTextBox()
-#
-#       if event.type == pygame.K_a:
-#          window.color = pygame.Color(255, 0, 0)
-#     if event.type == pygame.K_2:
-#            window.color = pygame.Color(0, 255, 0)
-#        if event.type == pygame.K_3:
-#            window.color = pygame.Color(0, 0, 255)
-#        # if event.type == pygame.K_4:
-#        # window.UpdateBackground(0)
-#
-#        if event.type == pygame.K_8:
-#            gridmap.updateTile(10, 10, 1)
-#            gridmap.updateTile(10, 11, 1)
-#            gridmap.updateTile(11, 10, 1)
-#            gridmap.updateTile(11, 11, 1)
 
-#    return
+
+
+
+
+
+
+
+
+
+
