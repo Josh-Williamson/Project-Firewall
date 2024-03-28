@@ -22,7 +22,8 @@ Set up
         d. hit apply and ok to add new configuration
 
         it should look similar to this:
-        ![image](https://github.com/MNU-Fall-2023/Project-FireWall/assets/143554505/d9f164b5-5bb5-478f-b0de-68511e1e7272)
+        ![image](https://github.com/MNU-Fall-2023/Project-FireWall/assets/143554505/0332141a-ba76-4e06-b39a-844deb16203e)
+
 
 Run application
     1. after completing the setup. hit your run/debug to get the application started and enjoy
