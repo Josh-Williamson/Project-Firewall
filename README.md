@@ -22,7 +22,7 @@ Set up
         d. hit apply and ok to add new configuration
 
         it should look similar to this:
-        ![image](https://github.com/MNU-Fall-2023/Project-FireWall/assets/143554505/0332141a-ba76-4e06-b39a-844deb16203e)
+![image](https://github.com/MNU-Fall-2023/Project-FireWall/assets/143554505/0332141a-ba76-4e06-b39a-844deb16203e)
 
 
 Run application
