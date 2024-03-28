@@ -16,7 +16,7 @@ window.CreateWindow()
 gridmap = GridMap()
 gridmap.InitiateGridMap(1)
 gridmap.LoadImageList()
-
+gridmap.writePathWaypointList()
 
 textbox = TextBox()
 textbox.CreateTextBox()
