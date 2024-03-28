@@ -16,10 +16,10 @@ Set up
 1. Download contents of the main branch
 2. right-click on the ProjectFirewall folder and open folder in your IDE as a project
 3. add a new run/debug configuration to your the ProjectFirewall project
-a. python
-b. make the script point to (where you saved the project to)\Project-FireWall\main_loop\main.py
-c. working directory the Project-Firewall folder
-d. hit apply and ok to add new configuration
+   a. python
+   b. make the script point to (where you saved the project to)\Project-FireWall\main_loop\main.py
+   c. working directory the Project-Firewall folder
+   d. hit apply and ok to add new configuration
 
         it should look similar to this:
 ![image](https://github.com/MNU-Fall-2023/Project-FireWall/assets/143554505/0332141a-ba76-4e06-b39a-844deb16203e)
