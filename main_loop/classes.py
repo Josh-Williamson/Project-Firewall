@@ -289,34 +289,6 @@ class GridMap:
 
         return [pos1, pos2, pos3, pos4]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #path_recursion is a WIP method for generating paths"""
     def path_recursion(self, base, spawn):
         current_row = 0
