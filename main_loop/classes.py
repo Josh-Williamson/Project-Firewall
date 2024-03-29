@@ -3,6 +3,7 @@ from pygame import event
 import csv
 
 TILE_TYPES = 1
+ENEMY_TYPES = 1
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 
@@ -10,15 +11,20 @@ PATH = 900
 SPAWN = 901
 BASE = 902
 
-
+ENEMY_IMAGE_LIST = []
+ENEMY_SPRITE_GROUP = pygame.sprite.RenderUpdates()
+ENEMY_SPRITE_GROUP.__init__()
 
 class Window:
     def __init__(window):
+
         window.width = SCREEN_WIDTH
         window.height = SCREEN_HEIGHT
         window.color = pygame.Color(255, 0, 255)
         window.caption = "Project Firewall"
         window.display = pygame.display.set_mode((window.width, window.height))
+
+        window.surface = pygame.surface.Surface([window.width, window.height])
 
 
     def CreateWindow(window):
@@ -69,17 +75,83 @@ class TextBox:
         else:
             return
 
+class Sprite(pygame.sprite.Sprite):
 
-class Enemy(pygame.sprite.Sprite):
-  def __init__(self, pos, image, hp, damage, speed):
-    pygame.sprite.Sprite.__init__(self)
-    hp = 0
-    damage = 0
-    speed = 0
-    self.image = image
-    self.rect = self.image.get_rect()
-    self.rect.center = pos
 
+    def update(self, gridmap):
+        return
+
+
+class Enemy(Sprite):
+    def __init__(self, gridmap):
+
+        pygame.sprite.Sprite.__init__(self, ENEMY_SPRITE_GROUP)
+        self.type_ID = 1
+        ##row == y, column == x
+        self.gridpos = gridmap.pathWaypointList[0]
+        self.grid_row = self.gridpos[1]
+        self.grid_column = self.gridpos[0]
+
+        self.tile_size = 30
+
+        self.truepos_x = self.grid_column * self.tile_size
+        self.truepos_y = self.grid_row * self.tile_size
+        self.truepos = [self.truepos_x, self.truepos_y]
+
+        self.path_index = 0
+
+        self.hp = 0
+        self.damage = 0
+        self.speed = 35
+
+        self.image = ENEMY_IMAGE_LIST[0]
+        self.rect = self.getSpriteRect()
+        Sprite.update(self, gridmap)
+
+    def update(self, gridmap):
+        self.followPath(gridmap.pathWaypointList)
+        self.rect = self.getSpriteRect()
+
+    def CreateEnemy(self, spawn_location):
+        self.position = spawn_location
+
+        Sprite.rect = self.rect
+
+    def addToGroup(self):
+        pygame.sprite.Sprite.add(self, ENEMY_SPRITE_GROUP)
+
+    def getSpriteRect(self):
+        left = self.truepos[0]
+        top = self.truepos[1]
+        width = self.tile_size
+        height = self.tile_size
+        return pygame.Rect(left, top, width, height)
+
+    def followPath(self, pathWaypointList):
+        self.path_index += 1
+        waypoint = pathWaypointList[self.path_index]
+        self.gridpos = waypoint
+        if self.gridpos == pathWaypointList[len(pathWaypointList)-1]:
+            #need to manage base hp reduction
+            self.kill()
+            return
+        else:
+            self.truepos = self.convertTiletoTruePosition(self.gridpos)
+            return
+
+    def convertTiletoTruePosition(self, gridpos):
+        holdpos = (gridpos[1] * self.tile_size, gridpos[0] * self.tile_size)
+        return holdpos
+
+    def scaleTruetoTilePosition(self, gridpos):
+        holdpos = (gridpos[1] / self.tile_size, gridpos[0] / self.tile_size)
+        return holdpos
+
+def loadEnemyImageList(gridmap):
+    for x in range(0, 2):
+        image = pygame.image.load(f'assets/enemy/enemy_1.png').convert_alpha()
+        image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+        ENEMY_IMAGE_LIST.append(image)
 
 
 """global """
@@ -117,8 +189,7 @@ class GridMap:
                     i += 1
                 self.gridMap.append(row)
             print(self.gridMap)
-
-
+        self.writePathWaypointList()
 
     def LoadImageList(self):
         for x in range(TILE_TYPES + 1):
@@ -227,6 +298,7 @@ class GridMap:
                     break
                 for column in range(self.columns):
                     if self.gridMap[row][column] == SPAWN:
+                        #tried flipping coordinates, and it broke everything
                         self.pathWaypointList.append((row, column))
                         found_start = True
                         print("found start")
@@ -260,10 +332,12 @@ class GridMap:
                 if pos not in self.pathWaypointList:
 
                     if self.gridMap[row][column] == 900:
+                        #tried flipping coordinates, and it broke everything
                         self.pathWaypointList.append((row, column))
                         index = index + 1
 
                     elif self.gridMap[row][column] == 902:
+                        #tried flipping coordinates, and it broke everything
                         self.pathWaypointList.append((row, column))
                         done = True
                         print(done)
