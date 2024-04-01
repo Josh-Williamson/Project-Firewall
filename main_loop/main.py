@@ -21,8 +21,8 @@ gridmap.InitiateGridMap(1)
 gridmap.LoadImageList()
 gridmap.writePathWaypointList()
 
-
 loadEnemyImageList(gridmap)
+
 
 enemy_1 = Enemy(gridmap)
 enemy_1.CreateEnemy((255, 15))
@@ -65,12 +65,16 @@ while keep_game_running:
     gridmap.DrawTileImage()
     gridmap.DrawGrid(window)
 
+    ENEMY_SPRITE_GROUP.update(gridmap)
+    ENEMY_SPRITE_GROUP.draw(SURFACE)
+
+
+    projectile_1.draw(window.display)
+    tower_1.draw(window.display)
 
     ENEMY_SPRITE_GROUP.update(gridmap)
     ENEMY_SPRITE_GROUP.draw(SURFACE)
 
-    projectile_1.draw(window.display)
-    tower_1.draw(window.display)
 
     pygame.event.pump()
     pygame.display.flip()
