@@ -1,5 +1,8 @@
 import pygame
 
+TOWER_TYPES = 1
+
+
 class Tower(pygame.sprite.Sprite):
   def __init__(self, pos, image, cost, projectile):
     pygame.sprite.Sprite.__init__(self)
