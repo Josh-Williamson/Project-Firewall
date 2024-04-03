@@ -17,12 +17,12 @@ FPS.tick(60)
 LEVEL = 0
 
 window = Window()
-window.CreateWindow()
+window.createWindow()
 SURFACE = pygame.display.get_surface()
 
 gridmap = GridMap()
-gridmap.InitiateGridMap(1)
-gridmap.LoadImageList()
+gridmap.initiateGridMap(1)
+gridmap.loadImageList()
 gridmap.writePathWaypointList()
 
 loadEnemyImageList(gridmap)
@@ -31,7 +31,7 @@ loadProjectileImageList(gridmap)
 base = Base()
 
 enemy_1 = Enemy(gridmap)
-enemy_1.CreateEnemy((255, 15), gridmap, base)
+enemy_1.createEnemy((gridmap.getPathStart()), gridmap, base)
 enemy_1.type_ID = 1
 enemy_1.addToGroup()
 
@@ -52,9 +52,9 @@ ENEMY_SPRITE_GROUP.draw(SURFACE)
 keep_game_running = True
 
 while keep_game_running:
-    window.UpdateBackground(LEVEL)
-    gridmap.DrawTileImage()
-    gridmap.DrawGrid(window)
+    window.updateBackground(LEVEL)
+    gridmap.drawTileImage()
+    gridmap.drawGrid(window)
     mouse_pressed = pygame.mouse.get_pressed(3)
 
 

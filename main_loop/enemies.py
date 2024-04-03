@@ -29,11 +29,12 @@ class Enemy(Sprite):
 
         self.tile_size = 30
 
-        self.truepos_x = self.grid_column * self.tile_size
-        self.truepos_y = self.grid_row * self.tile_size
-        self.truepos = [self.truepos_x, self.truepos_y]
+        self.truepos = self.convertTiletoTruePosition(self.gridpos)
+        self.truepos_x = self.truepos[0]
+        self.truepos_y = self.truepos[1]
 
-        self.path_index = -1
+
+        self.path_index = 0
 
         self.hp = 0
         self.damage = 1
@@ -47,9 +48,7 @@ class Enemy(Sprite):
         self.followPath(gridmap.pathWaypointList, base)
         self.rect = self.getSpriteRect()
 
-
-
-    def CreateEnemy(self, spawn_location, gridmap, base):
+    def createEnemy(self, spawn_location, gridmap, base):
         self.position = spawn_location
         Sprite.rect = self.rect
         ENEMY_SPRITE_GROUP.update(gridmap, base)
@@ -65,21 +64,27 @@ class Enemy(Sprite):
         return pygame.Rect(left, top, width, height)
 
     def followPath(self, pathWaypointList, base):
-        self.path_index += 1
+
         waypoint = pathWaypointList[self.path_index]
         self.gridpos = waypoint
-        if self.path_index == len(pathWaypointList) - 1:
-            base.baseDamage(self)
-            self.kill()
-            print("kill")
-            del self
+        self.truepos = self.convertTiletoTruePosition(self.gridpos)
+
+        if self.path_index >= len(pathWaypointList):
+            print("Path index is out of range: ", self.path_index)
             return
+
+        elif self.path_index == len(pathWaypointList) - 1:
+            self.dealBaseDamage(base)
+
         else:
-            self.truepos = self.convertTiletoTruePosition(self.gridpos)
+            self.path_index += 1
             return
 
-
-
+    def dealBaseDamage(self, base):
+        base.hp -= self.damage
+        self.kill()
+        print("kill")
+        return
 
     def convertTiletoTruePosition(self, gridpos):
         holdpos = (gridpos[1] * self.tile_size, gridpos[0] * self.tile_size)

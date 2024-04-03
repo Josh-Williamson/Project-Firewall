@@ -25,7 +25,7 @@ class GridMap:
         #self.highlighted = []
         #self.highlightSprite = pygame.sprite.Sprite()
 
-    def InitiateGridMap(self, level):
+    def initiateGridMap(self, level):
         self.gridMap.clear()
         file_name = "level_data/{level_num}.csv".format(level_num=level)
         with open(file_name, "r") as f:
@@ -41,7 +41,7 @@ class GridMap:
             print(self.gridMap)
         self.writePathWaypointList()
 
-    def LoadImageList(self):
+    def loadImageList(self):
         for x in range(TILE_TYPES + 1):
             image = pygame.image.load(f'assets/tower/tower_{x}.png').convert_alpha()
             image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
@@ -60,7 +60,7 @@ class GridMap:
         image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
         self.imageList.append(image)
 
-    def DrawGrid(self, window):
+    def drawGrid(self, window):
         for row in range(self.rows):
             pygame.draw.line(window.display, (0,0,0), (0, row * self.tileSize),
                              (window.width, row * self.tileSize))
@@ -69,7 +69,7 @@ class GridMap:
                              (column * self.tileSize, window.height))
 
 #added 'path', 'spawn', and 'base' handling, need images and function for spawn and base"""
-    def DrawTileImage(self):
+    def drawTileImage(self):
         for y, row in enumerate(self.gridMap):
             for x, tile in enumerate(row):
                 if tile == PATH:

@@ -18,12 +18,12 @@ class Window:
         window.surface = pygame.surface.Surface([window.width, window.height])
 
 
-    def CreateWindow(window):
+    def createWindow(window):
         window.__init__()
         window.display = pygame.display.set_mode((window.width, window.height))
         window.display.fill(window.color)
 
-    def UpdateBackground(window, level):
+    def updateBackground(window, level):
         backgroundImage = pygame.image.load(f"assets/backgrounds/0.png")
         window.display.blit(backgroundImage, (0,0))
 
