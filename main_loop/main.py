@@ -1,8 +1,12 @@
 import pygame
 from pygame import event
-from classes import *
+
+from window import *
+from gridmap import *
+from base import *
 from towers import *
 from projectiles import *
+from enemies import *
 
 
 pygame.init()
@@ -13,67 +17,76 @@ FPS.tick(60)
 LEVEL = 0
 
 window = Window()
-window.CreateWindow()
+window.createWindow()
 SURFACE = pygame.display.get_surface()
 
 gridmap = GridMap()
-gridmap.InitiateGridMap(1)
-gridmap.LoadImageList()
+gridmap.initiateGridMap(1)
+gridmap.loadImageList()
 gridmap.writePathWaypointList()
 
 loadEnemyImageList(gridmap)
+loadProjectileImageList(gridmap)
 
+base = Base()
 
 enemy_1 = Enemy(gridmap)
-enemy_1.CreateEnemy((255, 15))
+enemy_1.createEnemy((gridmap.getPathStart()), gridmap, base)
 enemy_1.type_ID = 1
-print(enemy_1.type_ID)
 enemy_1.addToGroup()
 
 #basic proof of concept that is drawn on lines 73-74
-projectile_image1 = pygame.image.load("assets/projectile/projectile_1.png").convert_alpha()
-projectile_1 = Projectile((400,400), projectile_image1, 0, 0)
+projectile_1 = Projectile()
 
 tower_image1 = pygame.image.load("assets/tower/tower_1.png").convert_alpha()
-tower_1 = Tower((400, 200) , tower_image1, 0, projectile_1)
+tower_1 = Tower((400, 200), tower_image1, 0, projectile_1)
 
-pygame.time.set_timer(pygame.USEREVENT+1, 500)
+
+
+ENEMY_UPDATE_EVENT = pygame.event.custom_type()
+pygame.time.set_timer(ENEMY_UPDATE_EVENT, 500)
+ENEMY_SPRITE_GROUP.draw(SURFACE)
+
 
 
 keep_game_running = True
 
 while keep_game_running:
+    window.updateBackground(LEVEL)
+    gridmap.drawTileImage()
+    gridmap.drawGrid(window)
+    mouse_pressed = pygame.mouse.get_pressed(3)
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             keep_game_running = False
-        window.UpdateBackground(LEVEL)
-        mouse_pressed = pygame.mouse.get_pressed(3)
 
 
-        left_mouse_button = mouse_pressed[0]
-        right_mouse_button = mouse_pressed[2]
-        if (mouse_pressed[0] or mouse_pressed[2]) and event.type == pygame.MOUSEBUTTONDOWN:
-            gridmap.clickTile(left_mouse_button, right_mouse_button)
-
-    pygame.time.wait(500)
-
-
-    print(enemy_1.truepos)
+        LMB = mouse_pressed[0]
+        RMB = mouse_pressed[2]
+        if (LMB or RMB):
+            gridmap.clickTile(LMB, RMB)
+        if event.type == ENEMY_UPDATE_EVENT:
+            ENEMY_SPRITE_GROUP.update(gridmap, base)
 
 
-    gridmap.DrawTileImage()
-    gridmap.DrawGrid(window)
 
-    ENEMY_SPRITE_GROUP.update(gridmap)
     ENEMY_SPRITE_GROUP.draw(SURFACE)
 
+    print(ENEMY_SPRITE_GROUP.sprites())
+    print(base.hp)
 
-    projectile_1.draw(window.display)
+
+
+    #ENEMY_SPRITE_GROUP.update(gridmap)
+    #ENEMY_SPRITE_GROUP.draw(SURFACE)
+
+
     tower_1.draw(window.display)
+    projectile_1.draw(window.display)
 
-    ENEMY_SPRITE_GROUP.update(gridmap)
-    ENEMY_SPRITE_GROUP.draw(SURFACE)
 
 
     pygame.event.pump()
