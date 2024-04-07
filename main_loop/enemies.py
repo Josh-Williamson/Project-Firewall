@@ -13,12 +13,12 @@ ENEMY_SPRITE_GROUP.__init__()
 class Sprite(pygame.sprite.Sprite):
 
 
-    def update(self, gridmap):
+    def update(self, gridmap, base):
         return
 
 
 class Enemy(Sprite):
-    def __init__(self, gridmap):
+    def __init__(self, gridmap, base):
 
         pygame.sprite.Sprite.__init__(self, ENEMY_SPRITE_GROUP)
         self.type_ID = 1
@@ -42,7 +42,7 @@ class Enemy(Sprite):
 
         self.image = ENEMY_IMAGE_LIST[0]
         self.rect = self.getSpriteRect()
-        Sprite.update(self, gridmap)
+        Sprite.update(self, gridmap, base)
 
     def update(self, gridmap, base):
         self.followPath(gridmap.pathWaypointList, base)
