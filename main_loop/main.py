@@ -24,8 +24,6 @@ SURFACE = pygame.display.get_surface()
 gridmap = GridMap()
 gridmap.initiateGridMap(1)
 
-gridmap.writePathWaypointList()
-
 loadGridmapImageList(gridmap)
 loadEnemyImageList(gridmap)
 loadEnemyAttributeList()
