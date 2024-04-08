@@ -1,6 +1,5 @@
 import pygame
-from pygame import event
-import csv
+
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600

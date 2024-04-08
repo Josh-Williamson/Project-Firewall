@@ -22,7 +22,9 @@ class Sprite(pygame.sprite.Sprite):
 
 
 class Enemy(Sprite):
+
     def __init__(self, gridmap, type_id):
+
 
         pygame.sprite.Sprite.__init__(self, ENEMY_SPRITE_GROUP)
         self.type_ID = type_id
@@ -50,19 +52,19 @@ class Enemy(Sprite):
         self.image = ENEMY_IMAGE_LIST[0]
         self.rect = self.getSpriteRect()
         self.rect_center = self.rect.center
-        Sprite.update(self, gridmap)
 
-    def update(self, gridmap, base):
+
+    def update(self, gridmap):
         if self.hp == 0:
             self.kill()
-        self.followPath(gridmap.pathWaypointList, base)
+        self.followPath(gridmap.pathWaypointList)
         self.rect = self.getSpriteRect()
 
-    def createEnemy(self, spawn_location, gridmap, base):
+    def createEnemy(self, spawn_location, gridmap):
         self.position = spawn_location
         self.path_index = 1
         Sprite.rect = self.rect
-        ENEMY_SPRITE_GROUP.update(gridmap, base)
+        ENEMY_SPRITE_GROUP.update(gridmap)
 
     def addToGroup(self):
         pygame.sprite.Sprite.add(self, ENEMY_SPRITE_GROUP)
@@ -74,10 +76,10 @@ class Enemy(Sprite):
         height = self.tile_size
         return pygame.Rect(left, top, width, height)
 
-    def followPath(self, pathWaypointList, base):
+    def followPath(self, pathWaypointList):
 
         if self.path_index == len(pathWaypointList):
-            self.dealBaseDamage(base)
+            self.dealBaseDamage()
             return
 
         if self.path_index > len(pathWaypointList):
@@ -112,8 +114,8 @@ class Enemy(Sprite):
         y_comp = true_wp[1] - self.truepos[1]
         return pygame.Vector2(x_comp, y_comp)
 
-    def dealBaseDamage(self, base):
-        base.hp -= self.damage
+    def dealBaseDamage(self):
+        BASE_SPRITE_GROUP.update(self.damage)
         self.kill()
         print("Base Damaged by: ", self.name)
         return
