@@ -39,7 +39,8 @@ class GridMap:
                         row[i] = int(row[i])
                     i += 1
                 self.gridMap.append(row)
-            print(self.gridMap)
+            for row in self.gridMap:
+                print(row)
         self.writePathWaypointList()
 
 
@@ -79,18 +80,16 @@ class GridMap:
         column = pos[1]
         if row <= self.rows and column <= self.columns:
             tile = self.gridMap[row][column]
-        print("getTileValueAtMousePosition", tile)
         return tile
 
         #use in placement events and map drawing for tile locations
 
     def updateTile(self, row, column, value):
-        print("value = ", value)
-        print("row, column", row, column)
+
         holder = self.gridMap
         holder[row][column] = value
         self.gridMap = holder
-        print("updateTile: ", self.gridMap[row][column])
+        print("updateTile: ", self.gridMap[row][column], " : ", value)
 
     def clickTile(self, left_mouse_button, right_mouse_button):
         pos = self.getTilePosition()
@@ -112,7 +111,6 @@ class GridMap:
         elif pygame.MOUSEBUTTONDOWN:
             self.updateTile(row, column, tower_type_id)
             Tower((column*self.tileSize, row*self.tileSize), tower_type_id, self.tileSize)
-            print("leftClickTile: ", column*self.tileSize, row*self.tileSize)
 
             return True
 
@@ -126,8 +124,6 @@ class GridMap:
         else:
             return False
 
-
-        print("right_click: ", self.gridMap[row][column])
         return
 
     def addTower(self, row, column, type_id):
@@ -159,7 +155,7 @@ class GridMap:
                     if self.gridMap[row][column] == BASE:
                         #tried flipping coordinates, and it broke everything
                         found_start = True
-                        print("found start")
+                        print("found end")
                         return (row, column)
 
     def writePathWaypointList(self):
@@ -199,7 +195,6 @@ class GridMap:
                         #tried flipping coordinates, and it broke everything
                         self.pathWaypointList.append((row, column))
                         done = True
-                        print(done)
                         break
 
         print("pathWaypointList: ", self.pathWaypointList)

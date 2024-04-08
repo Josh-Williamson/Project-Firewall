@@ -38,16 +38,16 @@ def loadTowerImageList(gridmap):
         image = pygame.image.load(f'assets/tower/tower_{x}.png').convert_alpha()
         image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
         TOWER_IMAGE_LIST.append(image)
-        print("image loaded", x)
+    print("Tower images loaded", TOWER_TYPES + 1)
     return
 
 def loadTowerAttributeList():
-    file_name = open("tower_types/tower_attributes.json")
+    file_name = open("sprite_attributes/tower_attributes.json")
     attributes = json.load(file_name)
 
     for i in attributes["tower_attributes"]:
         TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["cost"]))
-    print(TOWER_ATTRIBUTE_LIST)
+    print("TOWER_ATTRIBUTE_LIST: ", TOWER_ATTRIBUTE_LIST)
 
 
 
