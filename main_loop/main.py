@@ -22,15 +22,18 @@ SURFACE = pygame.display.get_surface()
 
 gridmap = GridMap()
 gridmap.initiateGridMap(1)
-gridmap.loadImageList()
+
 gridmap.writePathWaypointList()
 
+loadGridmapImageList(gridmap)
 loadEnemyImageList(gridmap)
+loadTowerImageList(gridmap)
+loadTowerAttributeList()
 loadProjectileImageList(gridmap)
 
 base = Base()
 
-enemy_1 = Enemy(gridmap)
+enemy_1 = Enemy(gridmap, base)
 enemy_1.createEnemy((gridmap.getPathStart()), gridmap, base)
 enemy_1.type_ID = 1
 enemy_1.addToGroup()
@@ -38,26 +41,24 @@ enemy_1.addToGroup()
 #basic proof of concept that is drawn on lines 73-74
 projectile_1 = Projectile()
 
-tower_image1 = pygame.image.load("assets/tower/tower_1.png").convert_alpha()
-tower_1 = Tower((400, 200), tower_image1, 0, projectile_1)
-
-
-
 ENEMY_UPDATE_EVENT = pygame.event.custom_type()
+TOWER_UPDATE_EVENT = pygame.event.custom_type()
 pygame.time.set_timer(ENEMY_UPDATE_EVENT, 500)
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
 
+window.updateBackground(LEVEL)
+gridmap.drawTileImage()
+gridmap.drawGrid(window)
 
 keep_game_running = True
 
 while keep_game_running:
+
     window.updateBackground(LEVEL)
     gridmap.drawTileImage()
-    gridmap.drawGrid(window)
+
     mouse_pressed = pygame.mouse.get_pressed(3)
-
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -67,27 +68,22 @@ while keep_game_running:
         LMB = mouse_pressed[0]
         RMB = mouse_pressed[2]
         if (LMB or RMB):
-            gridmap.clickTile(LMB, RMB)
+            if gridmap.clickTile(LMB, RMB):
+                update_tower_sprites = True
+
         if event.type == ENEMY_UPDATE_EVENT:
             ENEMY_SPRITE_GROUP.update(gridmap, base)
 
 
 
-    ENEMY_SPRITE_GROUP.draw(SURFACE)
-
-    print(ENEMY_SPRITE_GROUP.sprites())
-    print(base.hp)
 
 
 
-    #ENEMY_SPRITE_GROUP.update(gridmap)
-    #ENEMY_SPRITE_GROUP.draw(SURFACE)
-
-
-    tower_1.draw(window.display)
     projectile_1.draw(window.display)
 
-
+    TOWER_SPRITE_GROUP.draw(SURFACE)
+    gridmap.drawGrid(window)
+    ENEMY_SPRITE_GROUP.draw(SURFACE)
 
     pygame.event.pump()
     pygame.display.flip()
