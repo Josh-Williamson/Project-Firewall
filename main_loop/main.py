@@ -23,16 +23,21 @@ SURFACE = pygame.display.get_surface()
 
 gridmap = GridMap()
 gridmap.initiateGridMap(1)
-gridmap.loadImageList()
+
 gridmap.writePathWaypointList()
 
+loadGridmapImageList(gridmap)
 loadEnemyImageList(gridmap)
 loadEnemyAttributeList()
+loadTowerImageList(gridmap)
+loadTowerAttributeList()
 loadProjectileImageList(gridmap)
 
 base = Base()
 
+
 enemy_1 = Enemy(gridmap, 1)
+
 enemy_1.createEnemy((gridmap.getPathStart()), gridmap, base)
 enemy_1.addToGroup()
 
@@ -44,15 +49,15 @@ tower_1 = Tower((400, 200), tower_image1, 0, projectile_1)
 
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
+
 keep_game_running = True
 
 while keep_game_running:
+
     window.updateBackground(LEVEL)
     gridmap.drawTileImage()
-    gridmap.drawGrid(window)
+
     mouse_pressed = pygame.mouse.get_pressed(3)
-
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -64,15 +69,15 @@ while keep_game_running:
         if (LMB or RMB):
             gridmap.clickTile(LMB, RMB)
 
+
     ENEMY_SPRITE_GROUP.update(gridmap, base)
 
-    ENEMY_SPRITE_GROUP.draw(SURFACE)
 
-
-    tower_1.draw(window.display)
     projectile_1.draw(window.display)
 
-
+    TOWER_SPRITE_GROUP.draw(SURFACE)
+    gridmap.drawGrid(window)
+    ENEMY_SPRITE_GROUP.draw(SURFACE)
 
     pygame.event.pump()
     pygame.display.flip()

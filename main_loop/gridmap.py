@@ -1,5 +1,6 @@
 import pygame
 import csv
+from towers import *
 
 TILE_TYPES = 1
 ENEMY_TYPES = 1
@@ -41,24 +42,7 @@ class GridMap:
             print(self.gridMap)
         self.writePathWaypointList()
 
-    def loadImageList(self):
-        for x in range(TILE_TYPES + 1):
-            image = pygame.image.load(f'assets/tower/tower_{x}.png').convert_alpha()
-            image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
-            self.imageList.append(image)
-            print(x)
-        #append path.png
-        image = pygame.image.load(f'assets/tile/path.png').convert_alpha()
-        image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
-        self.imageList.append(image)
-        #append spawn.png
-        image = pygame.image.load(f'assets/tile/spawn.png').convert_alpha()
-        image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
-        self.imageList.append(image)
-        #append base.png
-        image = pygame.image.load(f'assets/tile/base.png').convert_alpha()
-        image = pygame.transform.scale(image, (self.tileSize, self.tileSize))
-        self.imageList.append(image)
+
 
     def drawGrid(self, window):
         for row in range(self.rows):
@@ -73,18 +57,15 @@ class GridMap:
         for y, row in enumerate(self.gridMap):
             for x, tile in enumerate(row):
                 if tile == PATH:
-                    image = self.imageList[TILE_TYPES + 1]
+                    image = self.imageList[0]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
                 elif tile == SPAWN:
-                    image = self.imageList[TILE_TYPES + 2]
+                    image = self.imageList[1]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
                 elif tile == BASE:
-                    image = self.imageList[TILE_TYPES + 3]
+                    image = self.imageList[2]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
-                elif tile != 0:
-                    image = self.imageList[tile]
-                    pygame.display.get_surface().blit(image,
-                                                      (x * self.tileSize, y * self.tileSize))
+
 
     def getTilePosition(self):
         pos = pygame.mouse.get_pos()
@@ -117,22 +98,43 @@ class GridMap:
         row = pos[0]
         column = pos[1]
 
-        if left_mouse_button:
-            self.leftClickTile(tile, row, column)
+        if left_mouse_button and tile == 0:
+            if self.leftClickTile(tile, row, column, 1):
+                return True
+            else:
+                return False
         if right_mouse_button:
             self.rightClickTile(tile, row, column)
 
-    def leftClickTile(self, tile, row, column):
-        if tile >= TILE_TYPES:
+    def leftClickTile(self, tile, row, column, tower_type_id):
+        if tile != 0:
             return
         elif pygame.MOUSEBUTTONDOWN:
-            self.updateTile(row, column, (tile + 1))
-            return
+            self.updateTile(row, column, tower_type_id)
+            Tower((column*self.tileSize, row*self.tileSize), tower_type_id, self.tileSize)
+            print("leftClickTile: ", column*self.tileSize, row*self.tileSize)
+
+            return True
 
     def rightClickTile(self, tile, row, column):
-        self.updateTile(row, column, 0)
+        if tile != 0 or PATH or SPAWN or BASE:
+            self.updateTile(row, column, 0)
+            for tower in TOWER_SPRITE_GROUP.sprites():
+                if tower.rect.x == column * self.tileSize and tower.rect.y == row * self.tileSize:
+                    tower.kill()
+                    return tower.rect.x, tower.rect.y
+        else:
+            return False
+
+
         print("right_click: ", self.gridMap[row][column])
         return
+
+    def addTower(self, row, column, type_id):
+
+        return
+
+
 
     def getPathStart(self):
         found_start = False
@@ -240,3 +242,29 @@ class GridMap:
                             and self.pathWaypointList.index([current_row, current_column]):
                         self.pathWaypointList
 
+def loadGridmapImageList(gridmap):
+    #for x in range(TILE_TYPES + 1):
+    #    image = pygame.image.load(f'assets/tower/tower_{x}.png').convert_alpha()
+    #    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+    #    gridmap.imageList.append(image)
+    #    print(x)
+    #append path.png
+    image = pygame.image.load(f'assets/tile/path.png').convert_alpha()
+    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+    gridmap.imageList.append(image)
+    #append spawn.png
+    image = pygame.image.load(f'assets/tile/spawn.png').convert_alpha()
+    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+    gridmap.imageList.append(image)
+    #append base.png
+    image = pygame.image.load(f'assets/tile/base.png').convert_alpha()
+    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+    gridmap.imageList.append(image)
+
+def convertTiletoTruePosition(tile_size, gridpos):
+    holdpos = (gridpos[1] * tile_size, gridpos[0] * tile_size)
+    return holdpos
+
+def scaleTruetoTilePosition(tile_size, gridpos):
+    holdpos = (gridpos[1] / tile_size, gridpos[0] / tile_size)
+    return holdpos
