@@ -1,10 +1,14 @@
 import pygame
 from base import *
+import json
+import math
+
 
 TILE_TYPES = 1
 ENEMY_TYPES = 1
 
 ENEMY_IMAGE_LIST = []
+ENEMY_ATTRIBUTE_LIST = []
 ENEMY_SPRITE_GROUP = pygame.sprite.RenderUpdates()
 ENEMY_SPRITE_GROUP.__init__()
 
@@ -18,10 +22,12 @@ class Sprite(pygame.sprite.Sprite):
 
 
 class Enemy(Sprite):
-    def __init__(self, gridmap, base):
+
+    def __init__(self, gridmap, type_id):
+
 
         pygame.sprite.Sprite.__init__(self, ENEMY_SPRITE_GROUP)
-        self.type_ID = 1
+        self.type_ID = type_id
         ##row == y, column == x
         self.gridpos = gridmap.pathWaypointList[0]
         self.grid_row = self.gridpos[1]
@@ -36,20 +42,28 @@ class Enemy(Sprite):
 
         self.path_index = 0
 
-        self.hp = 0
-        self.damage = 1
-        self.speed = 35
+        attributes = ENEMY_ATTRIBUTE_LIST[self.type_ID]
+
+        self.name = attributes[1]
+        self.hp = attributes[2]
+        self.damage = attributes[3]
+        self.speed = attributes[4]
 
         self.image = ENEMY_IMAGE_LIST[0]
         self.rect = self.getSpriteRect()
-        Sprite.update(self, gridmap, base)
+        self.rect_center = self.rect.center
+        Sprite.update(self, gridmap)
+
 
     def update(self, gridmap, base):
+        if self.hp == 0:
+            self.kill()
         self.followPath(gridmap.pathWaypointList, base)
         self.rect = self.getSpriteRect()
 
     def createEnemy(self, spawn_location, gridmap, base):
         self.position = spawn_location
+        self.path_index = 1
         Sprite.rect = self.rect
         ENEMY_SPRITE_GROUP.update(gridmap, base)
 
@@ -65,25 +79,53 @@ class Enemy(Sprite):
 
     def followPath(self, pathWaypointList, base):
 
-        waypoint = pathWaypointList[self.path_index]
-        self.gridpos = waypoint
-        self.truepos = self.convertTiletoTruePosition(self.gridpos)
+        if self.path_index == len(pathWaypointList):
+            self.dealBaseDamage(base)
+            return
 
-        if self.path_index >= len(pathWaypointList):
+        if self.path_index > len(pathWaypointList):
             print("Path index is out of range: ", self.path_index)
             return
 
-        elif self.path_index == len(pathWaypointList) - 1:
-            self.dealBaseDamage(base)
+        waypoint = pathWaypointList[self.path_index]
+        distance_to_waypoint = self.getDistanceToWaypoint(waypoint)
 
-        else:
+        if distance_to_waypoint > self.speed/30:
+            move_vector = self.getMovementVector(waypoint)
+            move_vector.scale_to_length(self.speed/30)
+            self.truepos += move_vector
+
+        elif distance_to_waypoint <= self.speed/30:
+            move_vector = self.getMovementVector(waypoint)
+            move_vector.scale_to_length(distance_to_waypoint)
+            self.truepos += move_vector
             self.path_index += 1
             return
+
+    def getDistanceToWaypoint(self, waypoint):
+        true_wp = self.convertTiletoTruePosition(waypoint)
+        x_comp = true_wp[0] - self.truepos[0]
+        y_comp = true_wp[1] - self.truepos[1]
+
+        return math.hypot(x_comp, y_comp)
+
+    def getMovementVector(self, waypoint):
+        true_wp = self.convertTiletoTruePosition(waypoint)
+        x_comp = true_wp[0] - self.truepos[0]
+        y_comp = true_wp[1] - self.truepos[1]
+        return pygame.Vector2(x_comp, y_comp)
 
     def dealBaseDamage(self, base):
         base.hp -= self.damage
         self.kill()
-        print("kill")
+        print("Base Damaged by: ", self.name)
+        return
+
+    def takeDamage(self, damage):
+        self.hp -= damage
+        if self.hp <= 0:
+            self.kill()
+            print("Enemy destroyed")
         return
 
     def convertTiletoTruePosition(self, gridpos):
@@ -99,4 +141,12 @@ def loadEnemyImageList(gridmap):
         image = pygame.image.load(f'assets/enemy/enemy_1.png').convert_alpha()
         image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
         ENEMY_IMAGE_LIST.append(image)
+
+def loadEnemyAttributeList():
+    file_name = open("sprite_attributes/enemy_attributes.json")
+    attributes = json.load(file_name)
+
+    for i in attributes["enemy_attributes"]:
+        ENEMY_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["hp"], i["damage"], i["speed"]))
+    print(ENEMY_ATTRIBUTE_LIST)
 

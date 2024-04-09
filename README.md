@@ -1,6 +1,6 @@
 Project Firewall
 Overview:
-developed by Josh Williams and Xavier Spears. Project firewall is a fun tower defense game developed as our senior project at MNU.
+developed by Josh Williamson and Xavier Spears. Project firewall is a fun tower defense game developed as our senior project at MNU.
 
 Built Using:
 Pygame http://pygametutorials.wikidot.com/start

@@ -12,7 +12,8 @@ from enemies import *
 pygame.init()
 
 FPS = pygame.time.Clock()
-FPS.tick(60)
+
+
 
 LEVEL = 0
 
@@ -27,29 +28,27 @@ gridmap.writePathWaypointList()
 
 loadGridmapImageList(gridmap)
 loadEnemyImageList(gridmap)
+loadEnemyAttributeList()
 loadTowerImageList(gridmap)
 loadTowerAttributeList()
 loadProjectileImageList(gridmap)
 
 base = Base()
 
-enemy_1 = Enemy(gridmap, base)
+
+enemy_1 = Enemy(gridmap, 1)
+
 enemy_1.createEnemy((gridmap.getPathStart()), gridmap, base)
-enemy_1.type_ID = 1
 enemy_1.addToGroup()
 
 #basic proof of concept that is drawn on lines 73-74
 projectile_1 = Projectile()
 
-ENEMY_UPDATE_EVENT = pygame.event.custom_type()
-TOWER_UPDATE_EVENT = pygame.event.custom_type()
-pygame.time.set_timer(ENEMY_UPDATE_EVENT, 500)
+tower_image1 = pygame.image.load("assets/tower/tower_1.png").convert_alpha()
+tower_1 = Tower((400, 200), tower_image1, 0, projectile_1)
+
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
-
-window.updateBackground(LEVEL)
-gridmap.drawTileImage()
-gridmap.drawGrid(window)
 
 keep_game_running = True
 
@@ -68,15 +67,10 @@ while keep_game_running:
         LMB = mouse_pressed[0]
         RMB = mouse_pressed[2]
         if (LMB or RMB):
-            if gridmap.clickTile(LMB, RMB):
-                update_tower_sprites = True
-
-        if event.type == ENEMY_UPDATE_EVENT:
-            ENEMY_SPRITE_GROUP.update(gridmap, base)
+            gridmap.clickTile(LMB, RMB)
 
 
-
-
+    ENEMY_SPRITE_GROUP.update(gridmap, base)
 
 
     projectile_1.draw(window.display)
@@ -87,7 +81,9 @@ while keep_game_running:
 
     pygame.event.pump()
     pygame.display.flip()
-    FPS.tick_busy_loop(60)
+
+    FPS.tick()
+    print(FPS.get_fps())
 
 else:
     pygame.quit()
