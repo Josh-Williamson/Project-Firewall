@@ -21,7 +21,6 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, gridmap, type_id):
 
-
         pygame.sprite.Sprite.__init__(self, ENEMY_SPRITE_GROUP)
         self.type_ID = type_id
         ##row == y, column == x
@@ -48,7 +47,6 @@ class Enemy(pygame.sprite.Sprite):
         self.image = ENEMY_IMAGE_LIST[0]
         self.rect = self.getSpriteRect()
         self.rect_center = self.rect.center
-
 
     def update(self, gridmap):
         if self.hp == 0:

@@ -1,12 +1,12 @@
 import pygame
 from pygame import event
 
-from window import Window
-from gridmap import GridMap, loadGridmapImageList
-from base import Base, BASE_SPRITE_GROUP
-from towers import Tower, TOWER_SPRITE_GROUP, loadTowerImageList, loadTowerAttributeList
-from projectiles import Projectile, PROJECTILE_SPRITE_GROUP, loadProjectileAttributeList, loadProjectileImageList
-from enemies import Enemy, ENEMY_SPRITE_GROUP, loadEnemyImageList, loadEnemyAttributeList
+from window import *
+from gridmap import *
+from base import *
+from towers import *
+from projectiles import *
+from enemies import *
 
 
 pygame.init()
@@ -75,7 +75,7 @@ while keep_game_running:
 
 
 
-   # projectile_1.draw(window.display)
+
 
     TOWER_SPRITE_GROUP.draw(SURFACE)
     gridmap.drawGrid(window)
