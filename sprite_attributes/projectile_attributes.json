@@ -1,0 +1,23 @@
+{
+  "projectile_attributes": [
+    {
+      "type_id": 0,
+      "name": "ERROR",
+      "damage": 0,
+      "speed": 0
+
+    },
+    {
+      "type_id": 0,
+      "name": "Basic",
+      "damage": 1,
+      "speed": 30
+    },
+	{
+      "type_id": 2,
+      "name": "Quick",
+      "damage": 1,
+      "speed": 60
+	}
+  ]
+}

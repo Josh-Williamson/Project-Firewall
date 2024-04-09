@@ -4,25 +4,27 @@ import pygame
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 
+BG_SPRITE_GROUP = pygame.sprite.RenderUpdates()
+BG_SPRITE_GROUP.__init__()
 
-class Window:
-    def __init__(window):
+class Window():
+    def __init__(self, level):
+        self.width = SCREEN_WIDTH
+        self.height = SCREEN_HEIGHT
+        self.color = pygame.Color(255, 0, 255)
+        self.caption = "Project Firewall"
+        self.display = pygame.display.set_mode((self.width, self.height))
 
-        window.width = SCREEN_WIDTH
-        window.height = SCREEN_HEIGHT
-        window.color = pygame.Color(255, 0, 255)
-        window.caption = "Project Firewall"
-        window.display = pygame.display.set_mode((window.width, window.height))
+        self.surface = pygame.surface.Surface([self.width, self.height])
 
-        window.surface = pygame.surface.Surface([window.width, window.height])
+        self.image = self.getBackground(level)
 
+    def updateBackground(self):
+        self.display.blit(self.image, (0,0))
 
-    def createWindow(window):
-        window.__init__()
-        window.display = pygame.display.set_mode((window.width, window.height))
-        window.display.fill(window.color)
+    def getBackground(self, level):
+        backgroundImage = pygame.image.load(f"assets/backgrounds/{level}.png").convert_alpha()
+        image = pygame.transform.scale(backgroundImage, (self.width, self.height))
+        return image
 
-    def updateBackground(window, level):
-        backgroundImage = pygame.image.load(f"assets/backgrounds/0.png")
-        window.display.blit(backgroundImage, (0,0))
 

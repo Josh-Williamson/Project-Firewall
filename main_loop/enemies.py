@@ -14,14 +14,10 @@ ENEMY_SPRITE_GROUP.__init__()
 
 
 
-class Sprite(pygame.sprite.Sprite):
 
 
-    def update(self, gridmap):
-        return
 
-
-class Enemy(Sprite):
+class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, gridmap, type_id):
 
@@ -40,7 +36,7 @@ class Enemy(Sprite):
         self.truepos_y = self.truepos[1]
 
 
-        self.path_index = 0
+        self.path_index = 1
 
         attributes = ENEMY_ATTRIBUTE_LIST[self.type_ID]
 
@@ -61,9 +57,7 @@ class Enemy(Sprite):
         self.rect = self.getSpriteRect()
 
     def createEnemy(self, spawn_location, gridmap):
-        self.position = spawn_location
         self.path_index = 1
-        Sprite.rect = self.rect
         ENEMY_SPRITE_GROUP.update(gridmap)
 
     def addToGroup(self):

@@ -1,24 +1,24 @@
 import pygame
 from pygame import event
 
-from window import *
-from gridmap import *
-from base import *
-from towers import *
-from projectiles import *
-from enemies import *
+from window import Window
+from gridmap import GridMap, loadGridmapImageList
+from base import Base, BASE_SPRITE_GROUP
+from towers import Tower, TOWER_SPRITE_GROUP, loadTowerImageList, loadTowerAttributeList
+from projectiles import Projectile, PROJECTILE_SPRITE_GROUP, loadProjectileAttributeList, loadProjectileImageList
+from enemies import Enemy, ENEMY_SPRITE_GROUP, loadEnemyImageList, loadEnemyAttributeList
 
 
 pygame.init()
 
 FPS = pygame.time.Clock()
+FPS.tick(60)
 
 
+TILE_SIZE = 30
+LEVEL = 1
 
-LEVEL = 0
-
-window = Window()
-window.createWindow()
+window = Window(LEVEL)
 SURFACE = pygame.display.get_surface()
 
 gridmap = GridMap()
@@ -30,15 +30,14 @@ loadEnemyAttributeList()
 loadTowerImageList(gridmap)
 loadTowerAttributeList()
 loadProjectileImageList(gridmap)
+loadProjectileAttributeList()
 
 base = Base()
 
 enemy_1 = Enemy(gridmap, 1)
-enemy_1.createEnemy((gridmap.getPathStart()), gridmap)
-enemy_1.addToGroup()
 
-#basic proof of concept that is drawn on lines 73-74
-projectile_1 = Projectile()
+
+
 
 ENEMY_UPDATE_EVENT = pygame.event.custom_type()
 TOWER_UPDATE_EVENT = pygame.event.custom_type()
@@ -46,15 +45,16 @@ pygame.time.set_timer(ENEMY_UPDATE_EVENT, 500)
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
 
-window.updateBackground(LEVEL)
+window.updateBackground()
 gridmap.drawTileImage()
 gridmap.drawGrid(window)
+pygame.display.flip()
 
 keep_game_running = True
 
 while keep_game_running:
 
-    window.updateBackground(LEVEL)
+
     gridmap.drawTileImage()
 
     mouse_pressed = pygame.mouse.get_pressed(3)
@@ -71,21 +71,24 @@ while keep_game_running:
 
     ENEMY_SPRITE_GROUP.update(gridmap)
 
+    projectile_1 = Projectile((200, 200), 1, gridmap.tileSize)
 
 
 
-
-
-    projectile_1.draw(window.display)
+   # projectile_1.draw(window.display)
 
     TOWER_SPRITE_GROUP.draw(SURFACE)
     gridmap.drawGrid(window)
-    ENEMY_SPRITE_GROUP.draw(SURFACE)
+
+    update_list = []
+    update_list.extend(ENEMY_SPRITE_GROUP.draw(SURFACE))
+    update_list.extend(PROJECTILE_SPRITE_GROUP.draw(SURFACE))
+    update_list.extend(TOWER_SPRITE_GROUP.draw(SURFACE))
+
+    pygame.display.update(update_list)
 
     pygame.event.pump()
-    pygame.display.flip()
-
-    FPS.tick()
+    FPS.tick(60)
     print(FPS.get_fps())
 
 else:
