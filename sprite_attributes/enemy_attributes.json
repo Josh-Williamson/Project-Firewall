@@ -13,7 +13,7 @@
       "name": "Basic",
       "hp": 10,
       "damage": 1,
-      "speed": 60
+      "speed": 30
     },
 	{
       "type_id": 2,

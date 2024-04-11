@@ -11,7 +11,7 @@
       "type_id": 0,
       "name": "Basic",
       "damage": 1,
-      "speed": 30
+      "speed": 120
     },
 	{
       "type_id": 2,

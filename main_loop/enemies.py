@@ -1,8 +1,7 @@
-import pygame
-from base import *
 import json
 import math
 
+from base import *
 
 TILE_TYPES = 1
 ENEMY_TYPES = 1
@@ -11,10 +10,6 @@ ENEMY_IMAGE_LIST = []
 ENEMY_ATTRIBUTE_LIST = []
 ENEMY_SPRITE_GROUP = pygame.sprite.RenderUpdates()
 ENEMY_SPRITE_GROUP.__init__()
-
-
-
-
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -31,6 +26,7 @@ class Enemy(pygame.sprite.Sprite):
         self.tile_size = 30
 
         self.truepos = self.convertTiletoTruePosition(self.gridpos)
+        self.truepos_vector = pygame.Vector2(self.truepos)
         self.truepos_x = self.truepos[0]
         self.truepos_y = self.truepos[1]
 
@@ -68,6 +64,7 @@ class Enemy(pygame.sprite.Sprite):
         height = self.tile_size
         return pygame.Rect(left, top, width, height)
 
+    # NEED TO REWORK FOLLOWPATH WITH VECTORS LIKE PROJECTILE - WAY EASIER
     def followPath(self, pathWaypointList):
 
         if self.path_index == len(pathWaypointList):
@@ -93,6 +90,7 @@ class Enemy(pygame.sprite.Sprite):
             self.path_index += 1
             return
 
+
     def getDistanceToWaypoint(self, waypoint):
         true_wp = self.convertTiletoTruePosition(waypoint)
         x_comp = true_wp[0] - self.truepos[0]
@@ -114,6 +112,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def takeDamage(self, damage):
         self.hp -= damage
+        print("damage: ", damage)
+        print("hp: ", self.hp)
         if self.hp <= 0:
             self.kill()
             print("Enemy destroyed")
@@ -141,3 +141,12 @@ def loadEnemyAttributeList():
         ENEMY_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["hp"], i["damage"], i["speed"]))
     print(ENEMY_ATTRIBUTE_LIST)
 
+
+def collisionDamageHandler(collision_dict):
+    for enemy in ENEMY_SPRITE_GROUP:
+        if enemy in collision_dict:
+            damage = 0
+            collision_projectile_list = collision_dict[enemy]
+            for projectile in collision_projectile_list:
+                damage += projectile.getDamage()
+            enemy.takeDamage(damage)

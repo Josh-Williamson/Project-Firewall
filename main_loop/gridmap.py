@@ -1,5 +1,5 @@
-import pygame
 import csv
+
 from towers import *
 
 TILE_TYPES = 1
@@ -39,19 +39,20 @@ class GridMap:
                         row[i] = int(row[i])
                     i += 1
                 self.gridMap.append(row)
-            for row in self.gridMap:
-                print(row)
         self.writePathWaypointList()
 
 
 
     def drawGrid(self, window):
+        update_list = []
         for row in range(self.rows):
-            pygame.draw.line(window.display, (0,0,0), (0, row * self.tileSize),
-                             (window.width, row * self.tileSize))
+            update_list.append(pygame.rect.Rect(pygame.draw.line(window.display, (0, 0, 0), (0, row * self.tileSize),
+                                                                 (window.width, row * self.tileSize))))
+
         for column in range(self.columns):
-            pygame.draw.line(window.display, (0,0,0), (column * self.tileSize, 0),
-                             (column * self.tileSize, window.height))
+            update_list.append(pygame.rect.Rect(pygame.draw.line(window.display, (0, 0, 0), (column * self.tileSize, 0),
+                                                                 (column * self.tileSize, window.height))))
+        return update_list
 
 #added 'path', 'spawn', and 'base' handling, need images and function for spawn and base"""
     def drawTileImage(self):
@@ -109,7 +110,7 @@ class GridMap:
         if tile != 0:
             return
         elif pygame.MOUSEBUTTONDOWN:
-            self.updateTile(row, column, tower_type_id)
+            # self.updateTile(row, column, tower_type_id)
             Tower((column*self.tileSize, row*self.tileSize), tower_type_id, self.tileSize)
 
             return True
@@ -125,12 +126,6 @@ class GridMap:
             return False
 
         return
-
-    def addTower(self, row, column, type_id):
-
-        return
-
-
 
     def getPathStart(self):
         found_start = False
@@ -196,8 +191,6 @@ class GridMap:
                         self.pathWaypointList.append((row, column))
                         done = True
                         break
-
-        print("pathWaypointList: ", self.pathWaypointList)
 
     def getAdjacentTiles(self, current_position):
         row = current_position[0]

@@ -2,15 +2,22 @@
   "tower_attributes": [
     {
       "type_id": 0,
-      "cost": 0
+      "cost": 0,
+      "fire_rate": 0,
+      "tile_range": 0
     },
     {
       "type_id": 1,
-      "cost": 30
+      "cost": 30,
+      "fire_rate": 30,
+      "tile_range": 3
     },
 	{
       "type_id": 2,
-      "cost": 60
+      "cost": 60,
+      "fire_rate": 60,
+      "tile_range": 5
+
 	}	
   ]
 }
