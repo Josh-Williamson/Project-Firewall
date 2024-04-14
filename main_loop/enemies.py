@@ -88,7 +88,6 @@ class Enemy(pygame.sprite.Sprite):
             move_vector.scale_to_length(distance_to_waypoint)
             self.truepos += move_vector
             self.path_index += 1
-            return
 
 
     def getDistanceToWaypoint(self, waypoint):
@@ -108,7 +107,6 @@ class Enemy(pygame.sprite.Sprite):
         BASE_SPRITE_GROUP.update(self.damage)
         self.kill()
         print("Base Damaged by: ", self.name)
-        return
 
     def takeDamage(self, damage):
         self.hp -= damage
@@ -117,7 +115,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.hp <= 0:
             self.kill()
             print("Enemy destroyed")
-        return
 
     def convertTiletoTruePosition(self, gridpos):
         holdpos = (gridpos[1] * self.tile_size, gridpos[0] * self.tile_size)

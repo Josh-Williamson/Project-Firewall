@@ -44,7 +44,6 @@ class Tower(pygame.sprite.Sprite):
         target = self.checkEnemyInRange()
         if target is not None and self.fireRateTimer():
             self.createProjectile(target)
-            return
 
     # iterated from the oldest (furthest along) to newest enemy, break at first in range
     # which should maintain targeting on the furthest along that is still in range
