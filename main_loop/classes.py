@@ -1,11 +1,10 @@
 import pygame
-from pygame import event
-import csv
 
 TILE_TYPES = 1
 ENEMY_TYPES = 1
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
+
 
 class TextBox:
 
@@ -22,11 +21,10 @@ class TextBox:
         textBox.renderText = pygame.surface
         textBox.textRectangle = pygame.rect
 
-
-    def get_renderTextList(self = None):
+    def get_renderTextList(self=None):
         return renderTextList
 
-    def get_textRectangleList(self = None):
+    def get_textRectangleList(self=None):
         return textRectangleList
 
     def CreateTextBox(self):
@@ -46,30 +44,9 @@ class TextBox:
 
 
 """global """
+
+
 def RenderTextBox():
     for text in renderTextList:
         for rect in textRectangleList:
             pygame.display.get_surface().blit(text, rect)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

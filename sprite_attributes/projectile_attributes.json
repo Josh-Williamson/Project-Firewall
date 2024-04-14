@@ -1,9 +1,8 @@
 {
-  "enemy_attributes": [
+  "projectile_attributes": [
     {
       "type_id": 0,
       "name": "ERROR",
-      "hp": 0,
       "damage": 0,
       "speed": 0
 
@@ -11,16 +10,14 @@
     {
       "type_id": 0,
       "name": "Basic",
-      "hp": 10,
       "damage": 1,
-      "speed": 30
+      "speed": 120
     },
 	{
       "type_id": 2,
       "name": "Quick",
-      "hp": 4,
       "damage": 1,
-      "speed": 30
+      "speed": 60
 	}
   ]
 }

@@ -1,5 +1,5 @@
-import pygame
 import csv
+
 from towers import *
 
 TILE_TYPES = 1
@@ -39,18 +39,20 @@ class GridMap:
                         row[i] = int(row[i])
                     i += 1
                 self.gridMap.append(row)
-            print(self.gridMap)
         self.writePathWaypointList()
 
 
 
     def drawGrid(self, window):
+        update_list = []
         for row in range(self.rows):
-            pygame.draw.line(window.display, (0,0,0), (0, row * self.tileSize),
-                             (window.width, row * self.tileSize))
+            update_list.append(pygame.rect.Rect(pygame.draw.line(window.display, (0, 0, 0), (0, row * self.tileSize),
+                                                                 (window.width, row * self.tileSize))))
+
         for column in range(self.columns):
-            pygame.draw.line(window.display, (0,0,0), (column * self.tileSize, 0),
-                             (column * self.tileSize, window.height))
+            update_list.append(pygame.rect.Rect(pygame.draw.line(window.display, (0, 0, 0), (column * self.tileSize, 0),
+                                                                 (column * self.tileSize, window.height))))
+        return update_list
 
 #added 'path', 'spawn', and 'base' handling, need images and function for spawn and base"""
     def drawTileImage(self):
@@ -79,18 +81,16 @@ class GridMap:
         column = pos[1]
         if row <= self.rows and column <= self.columns:
             tile = self.gridMap[row][column]
-        print("getTileValueAtMousePosition", tile)
         return tile
 
         #use in placement events and map drawing for tile locations
 
     def updateTile(self, row, column, value):
-        print("value = ", value)
-        print("row, column", row, column)
+
         holder = self.gridMap
         holder[row][column] = value
         self.gridMap = holder
-        print("updateTile: ", self.gridMap[row][column])
+        print("updateTile: ", self.gridMap[row][column], " : ", value)
 
     def clickTile(self, left_mouse_button, right_mouse_button):
         pos = self.getTilePosition()
@@ -110,9 +110,8 @@ class GridMap:
         if tile != 0:
             return
         elif pygame.MOUSEBUTTONDOWN:
-            self.updateTile(row, column, tower_type_id)
+            # self.updateTile(row, column, tower_type_id)
             Tower((column*self.tileSize, row*self.tileSize), tower_type_id, self.tileSize)
-            print("leftClickTile: ", column*self.tileSize, row*self.tileSize)
 
             return True
 
@@ -126,15 +125,7 @@ class GridMap:
         else:
             return False
 
-
-        print("right_click: ", self.gridMap[row][column])
         return
-
-    def addTower(self, row, column, type_id):
-
-        return
-
-
 
     def getPathStart(self):
         found_start = False
@@ -159,7 +150,7 @@ class GridMap:
                     if self.gridMap[row][column] == BASE:
                         #tried flipping coordinates, and it broke everything
                         found_start = True
-                        print("found start")
+                        print("found end")
                         return (row, column)
 
     def writePathWaypointList(self):
@@ -199,10 +190,7 @@ class GridMap:
                         #tried flipping coordinates, and it broke everything
                         self.pathWaypointList.append((row, column))
                         done = True
-                        print(done)
                         break
-
-        print("pathWaypointList: ", self.pathWaypointList)
 
     def getAdjacentTiles(self, current_position):
         row = current_position[0]
