@@ -79,16 +79,16 @@ class Enemy(pygame.sprite.Sprite):
         distance_to_waypoint = self.getDistanceToWaypoint(waypoint)
 
         if distance_to_waypoint > self.speed/30:
-            move_vector = self.getMovementVector(waypoint)
-            move_vector.scale_to_length(self.speed/30)
-            self.truepos += move_vector
+            self.move(waypoint, self.speed/30)
 
         elif distance_to_waypoint <= self.speed/30:
-            move_vector = self.getMovementVector(waypoint)
-            move_vector.scale_to_length(distance_to_waypoint)
-            self.truepos += move_vector
+            self.move(waypoint, distance_to_waypoint)
             self.path_index += 1
 
+    def move(self, waypoint, move_distance):
+        move_vector = self.getMovementVector(waypoint)
+        move_vector.scale_to_length(move_distance)
+        self.truepos += move_vector
 
     def getDistanceToWaypoint(self, waypoint):
         true_wp = self.convertTiletoTruePosition(waypoint)
