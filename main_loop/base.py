@@ -14,4 +14,3 @@ class Base(pygame.sprite.Sprite):
 
     def update(self, damage):
         self.hp -= damage
-        return

@@ -125,8 +125,6 @@ class GridMap:
         else:
             return False
 
-        return
-
     def getPathStart(self):
         found_start = False
         while found_start == False:

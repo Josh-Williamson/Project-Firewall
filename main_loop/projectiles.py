@@ -61,7 +61,6 @@ class Projectile(pygame.sprite.Sprite):
         target_enemy = self.target
         target_point = target_enemy.rect.center
         self.position_vector = self.position_vector.move_towards(target_point, self.speed)
-        return
 
 
 def loadProjectileImageList(gridmap):
@@ -69,7 +68,6 @@ def loadProjectileImageList(gridmap):
         image = pygame.image.load(f'assets/projectile/projectile_{x}.png').convert_alpha()
         image = pygame.transform.scale(image, (gridmap.tileSize * 0.2, gridmap.tileSize / 4))
         PROJECTILE_IMAGE_LIST.append(image)
-    return
 
 def loadProjectileAttributeList():
     file_name = open("sprite_attributes/projectile_attributes.json")

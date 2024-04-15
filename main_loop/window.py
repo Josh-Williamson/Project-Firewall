@@ -23,8 +23,8 @@ class Window():
         self.display.blit(self.image, (0,0))
 
     def getBackground(self, level):
-        backgroundImage = pygame.image.load(f"assets/backgrounds/{level}.png").convert_alpha()
-        image = pygame.transform.scale(backgroundImage, (self.width, self.height))
+        background_image = pygame.image.load(f"assets/backgrounds/{level}.png").convert_alpha()
+        image = pygame.transform.scale(background_image, (self.width, self.height))
         return image
 
 
