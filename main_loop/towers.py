@@ -24,9 +24,11 @@ class Tower(pygame.sprite.Sprite):
 
         attributes = TOWER_ATTRIBUTE_LIST[type_id]
 
-        self.cost = attributes[1]
-        self.fire_rate = attributes[2]
-        self.range = attributes[3] * tile_size
+        self.name = attributes[1]
+        self.cost = attributes[2]
+        self.fire_rate = attributes[3] #unit is number of frames between shots, lower = faster
+        self.range = attributes[4] * tile_size
+
 
         self.shot_timer = 0
         self.tile_size = tile_size
@@ -82,7 +84,7 @@ def loadTowerAttributeList():
     attributes = json.load(file_name)
 
     for i in attributes["tower_attributes"]:
-        TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["cost"], i["fire_rate"], i["tile_range"]))
+        TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["cost"], i["fire_rate"], i["tile_range"]))
     print("TOWER_ATTRIBUTE_LIST: ", TOWER_ATTRIBUTE_LIST)
 
 
