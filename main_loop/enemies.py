@@ -124,10 +124,10 @@ class Enemy(pygame.sprite.Sprite):
         holdpos = (gridpos[1] / self.tile_size, gridpos[0] / self.tile_size)
         return holdpos
 
-def loadEnemyImageList(gridmap):
+def loadEnemyImageList(tile_size):
     for x in range(0, 2):
         image = pygame.image.load(f'assets/enemy/enemy_1.png').convert_alpha()
-        image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+        image = pygame.transform.scale(image, (tile_size, tile_size))
         ENEMY_IMAGE_LIST.append(image)
 
 def loadEnemyAttributeList():
