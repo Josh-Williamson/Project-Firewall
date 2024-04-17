@@ -63,10 +63,10 @@ class Projectile(pygame.sprite.Sprite):
         self.position_vector = self.position_vector.move_towards(target_point, self.speed)
 
 
-def loadProjectileImageList(gridmap):
+def loadProjectileImageList(tile_size):
     for x in range(0, PROJECTILE_TYPES + 1):
         image = pygame.image.load(f'assets/projectile/projectile_{x}.png').convert_alpha()
-        image = pygame.transform.scale(image, (gridmap.tileSize * 0.2, gridmap.tileSize / 4))
+        image = pygame.transform.scale(image, (tile_size * 0.2, tile_size * 0.2))
         PROJECTILE_IMAGE_LIST.append(image)
 
 def loadProjectileAttributeList():

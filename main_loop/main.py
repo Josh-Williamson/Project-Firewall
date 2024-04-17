@@ -1,35 +1,30 @@
-from enemies import *
-from gridmap import *
-from projectiles import *
-from towers import *
-from window import *
+import pygame
+
+from base import Base
+from enemies import ENEMY_SPRITE_GROUP, Enemy, collisionDamageHandler
+from gridmap import GridMap
+from projectiles import PROJECTILE_SPRITE_GROUP
+from towers import TOWER_SPRITE_GROUP
+from window import Window
+from startup import loadImageLists, loadAttributeLists
 
 pygame.init()
+
+window = Window()
+SURFACE = pygame.display.get_surface()
+
+loadImageLists()
+loadAttributeLists()
 
 FPS = pygame.time.Clock()
 FPS.tick(60)
 
-TILE_SIZE = 30
-LEVEL = 1
-
-window = Window(LEVEL)
-SURFACE = pygame.display.get_surface()
-
 gridmap = GridMap()
 gridmap.initiateGridMap(1)
-
-loadGridmapImageList(gridmap)
-loadEnemyImageList(gridmap)
-loadEnemyAttributeList()
-loadTowerImageList(gridmap)
-loadTowerAttributeList()
-loadProjectileImageList(gridmap)
-loadProjectileAttributeList()
 
 base = Base()
 
 enemy_1 = Enemy(gridmap, 1)
-
 
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
@@ -51,7 +46,7 @@ while keep_game_running:
         if event.type == pygame.QUIT:
             keep_game_running = False
 
-
+        LEVEL = 2
         LMB = mouse_pressed[0]
         RMB = mouse_pressed[2]
         if (LMB or RMB):
