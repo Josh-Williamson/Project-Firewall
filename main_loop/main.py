@@ -7,11 +7,14 @@ from projectiles import PROJECTILE_SPRITE_GROUP
 from towers import TOWER_SPRITE_GROUP
 from window import Window
 from startup import loadImageLists, loadAttributeLists
+from level_change import levelInitialize
 
 pygame.init()
 
 window = Window()
+
 SURFACE = pygame.display.get_surface()
+LEVEL = 1
 
 loadImageLists()
 loadAttributeLists()
@@ -28,17 +31,21 @@ enemy_1 = Enemy(gridmap, 1)
 
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
-window.updateBackground()
-gridmap.drawTileImage()
-gridmap.drawGrid(window)
-pygame.display.flip()
+levelInitialize(LEVEL, gridmap)
 
 keep_game_running = True
 
 while keep_game_running:
 
+    if ENEMY_SPRITE_GROUP.sprites() is None:
+        LEVEL += 1
+        gridmap = levelInitialize(LEVEL, gridmap, window)
+
+
+
     window.updateBackground()
-    gridmap.drawTileImage()
+    gridmap.drawPath()
+
 
     mouse_pressed = pygame.mouse.get_pressed(3)
 

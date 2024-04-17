@@ -16,7 +16,7 @@ TILE_SIZE = 30
 
 class GridMap:
 
-    def __init__(self):
+    def __init__(self, level):
         self.tileSize = TILE_SIZE
         self.rows = pygame.display.get_surface().get_height() // self.tileSize
         self.columns = pygame.display.get_surface().get_width() // self.tileSize
@@ -70,6 +70,21 @@ class GridMap:
                     image = GRIDMAP_IMAGE_LIST[2]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
 
+    def drawPath(self):
+        for i in range(len(self.pathWaypointList)):
+
+            row, column = self.pathWaypointList[i]
+            tile_value = self.gridMap[row][column]
+
+            if tile_value == PATH:
+                image = GRIDMAP_IMAGE_LIST[0]
+                pygame.display.get_surface().blit(image, (column * TILE_SIZE, row * TILE_SIZE))
+            elif tile_value == SPAWN:
+                image = GRIDMAP_IMAGE_LIST[1]
+                pygame.display.get_surface().blit(image, (column * TILE_SIZE, row * TILE_SIZE))
+            elif tile_value == BASE:
+                image = GRIDMAP_IMAGE_LIST[2]
+                pygame.display.get_surface().blit(image, (column * TILE_SIZE, row * TILE_SIZE))
 
     def getTilePosition(self):
         pos = pygame.mouse.get_pos()
