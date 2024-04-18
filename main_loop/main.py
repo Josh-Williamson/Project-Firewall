@@ -53,11 +53,13 @@ while keep_game_running:
         if event.type == pygame.QUIT:
             keep_game_running = False
 
-        LEVEL = 2
-        LMB = mouse_pressed[0]
-        RMB = mouse_pressed[2]
-        if (LMB or RMB):
-            gridmap.clickTile(LMB, RMB)
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            LMB = mouse_pressed[0]
+            RMB = mouse_pressed[2]
+            if (LMB or RMB):
+                gridmap.clickTile(LMB, RMB)
+
 
     ENEMY_SPRITE_GROUP.update(gridmap)
     TOWER_SPRITE_GROUP.update()
