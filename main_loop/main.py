@@ -40,9 +40,9 @@ keep_game_running = True
 
 while keep_game_running:
 
-    if ENEMY_SPRITE_GROUP.sprites() is None:
+    if len(ENEMY_SPRITE_GROUP) == 0:
         LEVEL += 1
-        gridmap = levelInitialize(LEVEL, gridmap, window)
+        gridmap = levelInitialize(LEVEL, window, gridmap)
 
 
 

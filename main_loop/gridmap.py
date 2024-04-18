@@ -207,18 +207,27 @@ class GridMap:
         column = current_position[1]
 
         if row > 0:
-            pos1 = (row - 1, column)
+            pos_up = (row - 1, column)
         else:
-            pos1 = (0, column)
-        pos2 = (row + 1, column)
+            pos_up = (0, column)
+
+        if row < 19:
+            pos_down = (row + 1, column)
+        else:
+            pos_down = (19, column)
 
         if column > 0:
-            pos3 = (row, column - 1)
+            pos_left = (row, column - 1)
         else:
-            pos3 = (row, 0)
-        pos4 = (row, column + 1)
+            pos_left = (row, 0)
 
-        return [pos1, pos2, pos3, pos4]
+        if column < 19:
+            pos_right = (row, column + 1)
+        else:
+            pos_right = (row, 19)
+
+        print([pos_up, pos_down, pos_left, pos_right])
+        return [pos_up, pos_down, pos_left, pos_right]
 
 #path_recursion is a WIP method for generating paths"""
     def path_recursion(self, base, spawn):
