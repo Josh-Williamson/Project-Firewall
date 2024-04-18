@@ -15,7 +15,6 @@ pygame.init()
 window = Window()
 
 SURFACE = pygame.display.get_surface()
-LEVEL = 1
 KEY_PRESSED = 0
 
 loadAttributeLists()
@@ -24,25 +23,34 @@ loadImageLists()
 
 FPS = pygame.time.Clock()
 FPS.tick(60)
+last_enemy_spawn = pygame.time.get_ticks()
+spawn_cooldown = 400
 
 gridmap = GridMap(1)
 gridmap.initiateGridMap(1)
 
 base = Base()
 
-enemy_1 = Enemy(gridmap, 1)
-
 ENEMY_SPRITE_GROUP.draw(SURFACE)
+ENEMY_WAVE_LIST = pygame.sprite.Group()
 
-levelInitialize(LEVEL, window, gridmap)
+levelInitialize(window.level, window, gridmap)
 
 keep_game_running = True
 
 while keep_game_running:
 
+    if pygame.time.get_ticks() - last_enemy_spawn > spawn_cooldown:
+        if window.spawned_enemies < len(window.enemy_list):
+            enemy_type = window.enemy_list[window.spawned_enemies]
+            enemy_1 = Enemy(gridmap, 1)
+            ENEMY_WAVE_LIST.add(enemy_1)
+            window.spawned_enemies += 1
+            last_enemy_spawn = pygame.time.get_ticks()
+
     if ENEMY_SPRITE_GROUP.sprites() is None:
-        LEVEL += 1
-        gridmap = levelInitialize(LEVEL, gridmap, window)
+        window.level += 1
+        gridmap = levelInitialize(window.level, gridmap, window)
 
 
 
