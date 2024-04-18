@@ -8,6 +8,7 @@ from towers import TOWER_SPRITE_GROUP
 from window import Window
 from startup import loadImageLists, loadAttributeLists
 from level_change import levelInitialize
+from event_handler import getKeyPressedValue
 
 pygame.init()
 
@@ -15,14 +16,16 @@ window = Window()
 
 SURFACE = pygame.display.get_surface()
 LEVEL = 1
+KEY_PRESSED = 0
 
-loadImageLists()
 loadAttributeLists()
+loadImageLists()
+
 
 FPS = pygame.time.Clock()
 FPS.tick(60)
 
-gridmap = GridMap()
+gridmap = GridMap(1)
 gridmap.initiateGridMap(1)
 
 base = Base()
@@ -31,7 +34,7 @@ enemy_1 = Enemy(gridmap, 1)
 
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 
-levelInitialize(LEVEL, gridmap)
+levelInitialize(LEVEL, window, gridmap)
 
 keep_game_running = True
 
@@ -48,18 +51,17 @@ while keep_game_running:
 
 
     mouse_pressed = pygame.mouse.get_pressed(3)
+    LMB = mouse_pressed[0]
+    RMB = mouse_pressed[2]
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             keep_game_running = False
-
-
-        if event.type == pygame.MOUSEBUTTONUP:
-            LMB = mouse_pressed[0]
-            RMB = mouse_pressed[2]
-            if (LMB or RMB):
-                gridmap.clickTile(LMB, RMB)
-
+        if event.type == pygame.KEYDOWN:
+            KEY_PRESSED = getKeyPressedValue(event)
+        if (LMB or RMB) and event.type == pygame.MOUSEBUTTONUP:
+            if gridmap.clickTile(LMB, RMB, KEY_PRESSED):
+                KEY_PRESSED = None
 
     ENEMY_SPRITE_GROUP.update(gridmap)
     TOWER_SPRITE_GROUP.update()
@@ -83,7 +85,7 @@ while keep_game_running:
 
     pygame.event.pump()
     FPS.tick(60)
-    print(FPS.get_fps())
+    #print(FPS.get_fps())
 
 else:
     pygame.quit()

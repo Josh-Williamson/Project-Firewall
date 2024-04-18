@@ -6,7 +6,7 @@ import pygame
 from enemies import ENEMY_SPRITE_GROUP
 from projectiles import Projectile
 
-TOWER_TYPES = 1
+TOWER_TYPES = 3
 TOWER_IMAGE_LIST = []
 TOWER_ATTRIBUTE_LIST = []
 
@@ -18,7 +18,6 @@ class Tower(pygame.sprite.Sprite):
 
     def __init__(self, truepos, type_id, tile_size):
         pygame.sprite.Sprite.__init__(self, TOWER_SPRITE_GROUP)
-
         self.type_id = type_id
         self.truepos = truepos
 
@@ -40,6 +39,7 @@ class Tower(pygame.sprite.Sprite):
         top = self.truepos[1]
         width = self.tile_size
         height = self.tile_size
+        print("TOWER_TYPES",TOWER_TYPES)
         return pygame.Rect(left, top, width, height)
 
     def update(self):
@@ -71,6 +71,16 @@ class Tower(pygame.sprite.Sprite):
     def createProjectile(self, target):
         Projectile(self.rect.center, self.type_id, self.tile_size, target, self.range)
 
+def loadTowerAttributeList():
+    file_name = open("sprite_attributes/tower_attributes.json")
+    attributes = json.load(file_name)
+
+    for i in attributes["tower_attributes"]:
+        TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["cost"], i["fire_rate"], i["tile_range"]))
+        TOWER_TYPES = len(TOWER_ATTRIBUTE_LIST)
+
+
+    print("TOWER_ATTRIBUTE_LIST: ", TOWER_ATTRIBUTE_LIST)
 
 def loadTowerImageList(tile_size):
     for x in range(TOWER_TYPES+1):
@@ -79,13 +89,7 @@ def loadTowerImageList(tile_size):
         TOWER_IMAGE_LIST.append(image)
     return
 
-def loadTowerAttributeList():
-    file_name = open("sprite_attributes/tower_attributes.json")
-    attributes = json.load(file_name)
 
-    for i in attributes["tower_attributes"]:
-        TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["cost"], i["fire_rate"], i["tile_range"]))
-    print("TOWER_ATTRIBUTE_LIST: ", TOWER_ATTRIBUTE_LIST)
 
 
 

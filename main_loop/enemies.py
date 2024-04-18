@@ -4,7 +4,7 @@ import math
 from base import *
 
 TILE_TYPES = 1
-ENEMY_TYPES = 1
+ENEMY_TYPES = 3
 
 ENEMY_IMAGE_LIST = []
 ENEMY_ATTRIBUTE_LIST = []
@@ -110,11 +110,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def takeDamage(self, damage):
         self.hp -= damage
-        print("damage: ", damage)
-        print("hp: ", self.hp)
         if self.hp <= 0:
             self.kill()
-            print("Enemy destroyed")
 
     def convertTiletoTruePosition(self, gridpos):
         holdpos = (gridpos[1] * self.tile_size, gridpos[0] * self.tile_size)
@@ -125,7 +122,7 @@ class Enemy(pygame.sprite.Sprite):
         return holdpos
 
 
-def loadEnemyImageList(gridmap):
+def loadEnemyImageList(tile_size):
     for x in range(ENEMY_TYPES + 1):
 
         image = pygame.image.load(f'assets/enemy/enemy_1.png').convert_alpha()
@@ -138,7 +135,7 @@ def loadEnemyAttributeList():
 
     for i in attributes["enemy_attributes"]:
         ENEMY_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["hp"], i["damage"], i["speed"]))
-    print(ENEMY_ATTRIBUTE_LIST)
+
 
 
 def collisionDamageHandler(collision_dict):
