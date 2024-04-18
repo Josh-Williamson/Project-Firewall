@@ -72,10 +72,10 @@ class Tower(pygame.sprite.Sprite):
         Projectile(self.rect.center, self.type_id, self.tile_size, target, self.range)
 
 
-def loadTowerImageList(gridmap):
+def loadTowerImageList(tile_size):
     for x in range(TOWER_TYPES+1):
         image = pygame.image.load(f'assets/tower/tower_{x}.png').convert_alpha()
-        image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
+        image = pygame.transform.scale(image, (tile_size, tile_size))
         TOWER_IMAGE_LIST.append(image)
     return
 

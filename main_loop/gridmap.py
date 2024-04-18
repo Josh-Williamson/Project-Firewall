@@ -11,11 +11,13 @@ PATH = 900
 SPAWN = 901
 BASE = 902
 
+GRIDMAP_IMAGE_LIST = []
+TILE_SIZE = 30
 
 class GridMap:
 
-    def __init__(self):
-        self.tileSize = 30
+    def __init__(self, level):
+        self.tileSize = TILE_SIZE
         self.rows = pygame.display.get_surface().get_height() // self.tileSize
         self.columns = pygame.display.get_surface().get_width() // self.tileSize
         self.gridMap = []
@@ -59,15 +61,30 @@ class GridMap:
         for y, row in enumerate(self.gridMap):
             for x, tile in enumerate(row):
                 if tile == PATH:
-                    image = self.imageList[0]
+                    image = GRIDMAP_IMAGE_LIST[0]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
                 elif tile == SPAWN:
-                    image = self.imageList[1]
+                    image = GRIDMAP_IMAGE_LIST[1]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
                 elif tile == BASE:
-                    image = self.imageList[2]
+                    image = GRIDMAP_IMAGE_LIST[2]
                     pygame.display.get_surface().blit(image, (x * self.tileSize, y * self.tileSize))
 
+    def drawPath(self):
+        for i in range(len(self.pathWaypointList)):
+
+            row, column = self.pathWaypointList[i]
+            tile_value = self.gridMap[row][column]
+
+            if tile_value == PATH:
+                image = GRIDMAP_IMAGE_LIST[0]
+                pygame.display.get_surface().blit(image, (column * TILE_SIZE, row * TILE_SIZE))
+            elif tile_value == SPAWN:
+                image = GRIDMAP_IMAGE_LIST[1]
+                pygame.display.get_surface().blit(image, (column * TILE_SIZE, row * TILE_SIZE))
+            elif tile_value == BASE:
+                image = GRIDMAP_IMAGE_LIST[2]
+                pygame.display.get_surface().blit(image, (column * TILE_SIZE, row * TILE_SIZE))
 
     def getTilePosition(self):
         pos = pygame.mouse.get_pos()
@@ -219,24 +236,19 @@ class GridMap:
                             and self.pathWaypointList.index([current_row, current_column]):
                         self.pathWaypointList
 
-def loadGridmapImageList(gridmap):
-    #for x in range(TILE_TYPES + 1):
-    #    image = pygame.image.load(f'assets/tower/tower_{x}.png').convert_alpha()
-    #    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
-    #    gridmap.imageList.append(image)
-    #    print(x)
+def loadGridmapImageList(tile_size):
     #append path.png
     image = pygame.image.load(f'assets/tile/path.png').convert_alpha()
-    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
-    gridmap.imageList.append(image)
+    image = pygame.transform.scale(image, (tile_size, tile_size))
+    GRIDMAP_IMAGE_LIST.append(image)
     #append spawn.png
     image = pygame.image.load(f'assets/tile/spawn.png').convert_alpha()
-    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
-    gridmap.imageList.append(image)
+    image = pygame.transform.scale(image, (tile_size, tile_size))
+    GRIDMAP_IMAGE_LIST.append(image)
     #append base.png
     image = pygame.image.load(f'assets/tile/base.png').convert_alpha()
-    image = pygame.transform.scale(image, (gridmap.tileSize, gridmap.tileSize))
-    gridmap.imageList.append(image)
+    image = pygame.transform.scale(image, (tile_size, tile_size))
+    GRIDMAP_IMAGE_LIST.append(image)
 
 def convertTiletoTruePosition(tile_size, gridpos):
     holdpos = (gridpos[1] * tile_size, gridpos[0] * tile_size)

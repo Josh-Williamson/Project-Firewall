@@ -4,11 +4,8 @@ import pygame
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 
-BG_SPRITE_GROUP = pygame.sprite.RenderUpdates()
-BG_SPRITE_GROUP.__init__()
-
 class Window():
-    def __init__(self, level):
+    def __init__(self):
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
         self.color = pygame.Color(255, 0, 255)
@@ -17,7 +14,7 @@ class Window():
 
         self.surface = pygame.surface.Surface([self.width, self.height])
 
-        self.image = self.getBackground(level)
+        self.image = self.getBackground(1)
 
     def updateBackground(self):
         self.display.blit(self.image, (0,0))
