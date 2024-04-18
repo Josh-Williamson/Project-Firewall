@@ -59,10 +59,9 @@ while keep_game_running:
             keep_game_running = False
         if event.type == pygame.KEYDOWN:
             KEY_PRESSED = getKeyPressedValue(event)
-        if (LMB or RMB) and KEY_PRESSED is not None:
+        if (LMB or RMB) and event.type == pygame.MOUSEBUTTONUP:
             if gridmap.clickTile(LMB, RMB, KEY_PRESSED):
                 KEY_PRESSED = None
-    print(KEY_PRESSED)
 
     ENEMY_SPRITE_GROUP.update(gridmap)
     TOWER_SPRITE_GROUP.update()

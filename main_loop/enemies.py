@@ -110,11 +110,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def takeDamage(self, damage):
         self.hp -= damage
-        print("damage: ", damage)
-        print("hp: ", self.hp)
         if self.hp <= 0:
             self.kill()
-            print("Enemy destroyed")
 
     def convertTiletoTruePosition(self, gridpos):
         holdpos = (gridpos[1] * self.tile_size, gridpos[0] * self.tile_size)
@@ -138,7 +135,7 @@ def loadEnemyAttributeList():
 
     for i in attributes["enemy_attributes"]:
         ENEMY_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["hp"], i["damage"], i["speed"]))
-    print(ENEMY_ATTRIBUTE_LIST)
+
 
 
 def collisionDamageHandler(collision_dict):

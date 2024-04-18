@@ -111,7 +111,7 @@ class GridMap:
         row = pos[0]
         column = pos[1]
 
-        if left_mouse_button and tile == 0:
+        if left_mouse_button and tile == 0 and key_pressed is not None:
             if self.leftClickTile(tile, row, column, key_pressed):
                 return True
             else:
