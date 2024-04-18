@@ -5,7 +5,7 @@ from pygame import Vector2
 
 from enemies import ENEMY_SPRITE_GROUP
 
-PROJECTILE_TYPES = 1
+PROJECTILE_TYPES = 3
 
 PROJECTILE_IMAGE_LIST = []
 PROJECTILE_ATTRIBUTE_LIST = []

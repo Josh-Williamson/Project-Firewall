@@ -6,7 +6,7 @@ import pygame
 from enemies import ENEMY_SPRITE_GROUP
 from projectiles import Projectile
 
-TOWER_TYPES = 1
+TOWER_TYPES = 3
 TOWER_IMAGE_LIST = []
 TOWER_ATTRIBUTE_LIST = []
 
@@ -18,15 +18,16 @@ class Tower(pygame.sprite.Sprite):
 
     def __init__(self, truepos, type_id, tile_size):
         pygame.sprite.Sprite.__init__(self, TOWER_SPRITE_GROUP)
-
         self.type_id = type_id
         self.truepos = truepos
 
         attributes = TOWER_ATTRIBUTE_LIST[type_id]
 
-        self.cost = attributes[1]
-        self.fire_rate = attributes[2]
-        self.range = attributes[3] * tile_size
+        self.name = attributes[1]
+        self.cost = attributes[2]
+        self.fire_rate = attributes[3] #unit is number of frames between shots, lower = faster
+        self.range = attributes[4] * tile_size
+
 
         self.shot_timer = 0
         self.tile_size = tile_size
@@ -38,6 +39,7 @@ class Tower(pygame.sprite.Sprite):
         top = self.truepos[1]
         width = self.tile_size
         height = self.tile_size
+        print("TOWER_TYPES",TOWER_TYPES)
         return pygame.Rect(left, top, width, height)
 
     def update(self):
@@ -74,8 +76,10 @@ def loadTowerAttributeList():
     attributes = json.load(file_name)
 
     for i in attributes["tower_attributes"]:
-        TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["cost"], i["fire_rate"], i["tile_range"]))
+        TOWER_ATTRIBUTE_LIST.append((i["type_id"], i["name"], i["cost"], i["fire_rate"], i["tile_range"]))
         TOWER_TYPES = len(TOWER_ATTRIBUTE_LIST)
+
+
     print("TOWER_ATTRIBUTE_LIST: ", TOWER_ATTRIBUTE_LIST)
 
 def loadTowerImageList(tile_size):

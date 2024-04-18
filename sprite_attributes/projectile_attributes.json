@@ -18,6 +18,12 @@
       "name": "Quick",
       "damage": 1,
       "speed": 60
+	},
+	{
+      "type_id": 3,
+      "name": "Rapid",
+      "damage": 1,
+      "speed": 60
 	}
   ]
 }

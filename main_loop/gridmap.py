@@ -103,11 +103,7 @@ class GridMap:
         #use in placement events and map drawing for tile locations
 
     def updateTile(self, row, column, value):
-
-        holder = self.gridMap
-        holder[row][column] = value
-        self.gridMap = holder
-        print("updateTile: ", self.gridMap[row][column], " : ", value)
+        self.gridMap[row][column] = value
 
     def clickTile(self, left_mouse_button, right_mouse_button, key_pressed):
         pos = self.getTilePosition()

@@ -2,22 +2,32 @@
   "tower_attributes": [
     {
       "type_id": 0,
+      "name": "ERROR",
       "cost": 0,
       "fire_rate": 0,
       "tile_range": 0
     },
     {
       "type_id": 1,
+      "name": "Basic",
       "cost": 30,
       "fire_rate": 30,
       "tile_range": 3
     },
 	{
       "type_id": 2,
+      "name": "Quick",
       "cost": 60,
       "fire_rate": 60,
       "tile_range": 5
 
-	}	
+	},
+    {
+      "type_id": 3,
+      "name": "Rapid",
+      "cost": 75,
+      "fire_rate": 5,
+      "tile_range": 5
+    }
   ]
 }
