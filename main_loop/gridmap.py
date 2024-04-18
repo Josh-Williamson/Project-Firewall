@@ -23,7 +23,7 @@ class GridMap:
         self.gridMap = []
         self.pathWaypointList = []
         self.imageList = []
-        self.level = 0
+        self.level = level
 
         #self.highlighted = []
         #self.highlightSprite = pygame.sprite.Sprite()
@@ -109,14 +109,14 @@ class GridMap:
         self.gridMap = holder
         print("updateTile: ", self.gridMap[row][column], " : ", value)
 
-    def clickTile(self, left_mouse_button, right_mouse_button):
+    def clickTile(self, left_mouse_button, right_mouse_button, key_pressed):
         pos = self.getTilePosition()
         tile = self.getTileValueAtMousePosition()
         row = pos[0]
         column = pos[1]
 
         if left_mouse_button and tile == 0:
-            if self.leftClickTile(tile, row, column, 1):
+            if self.leftClickTile(tile, row, column, key_pressed):
                 return True
             else:
                 return False
@@ -126,10 +126,9 @@ class GridMap:
     def leftClickTile(self, tile, row, column, tower_type_id):
         if tile != 0:
             return
-        elif pygame.MOUSEBUTTONDOWN:
-            # self.updateTile(row, column, tower_type_id)
+        elif pygame.MOUSEBUTTONUP:
+            self.updateTile(row, column, tower_type_id)
             Tower((column*self.tileSize, row*self.tileSize), tower_type_id, self.tileSize)
-
             return True
 
     def rightClickTile(self, tile, row, column):
