@@ -16,9 +16,7 @@ class Window():
         self.surface = pygame.surface.Surface([self.width, self.height])
 
         self.image = self.getBackground(1)
-        self.enemy_list = []
-        self.spawned_enemies = 0
-
+        
 
     def updateBackground(self):
         self.display.blit(self.image, (0,0))
