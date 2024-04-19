@@ -6,7 +6,6 @@ SCREEN_HEIGHT = 600
 
 class Window():
     def __init__(self):
-        self.level = 1
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
         self.color = pygame.Color(255, 0, 255)
