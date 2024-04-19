@@ -1,5 +1,8 @@
 import pygame
 from gridmap import GridMap
+from enemies import Enemy
+from towers import TOWER_SPRITE_GROUP
+from projectiles import PROJECTILE_SPRITE_GROUP
 
 def levelInitialize(level, window, gridmap):
     window.image = window.getBackground(level)
@@ -12,11 +15,16 @@ def levelInitialize(level, window, gridmap):
 
     #load LEVEL_ENEMY_LIST
     #rescale image lists when/if dynamic tile sizes are implemented
+    for tower in TOWER_SPRITE_GROUP:
+        tower.kill()
+    for projectile in PROJECTILE_SPRITE_GROUP:
+        projectile.kill()
+
 
     gridmap.drawPath()
     gridmap.drawGrid(window)
 
-
+    Enemy(gridmap, 1)
 
     pygame.display.flip()
     return gridmap

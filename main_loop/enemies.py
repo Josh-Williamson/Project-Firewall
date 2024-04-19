@@ -44,7 +44,7 @@ class Enemy(pygame.sprite.Sprite):
         self.damage = attributes[3]
         self.speed = attributes[4]
 
-        self.image = ENEMY_IMAGE_LIST[0]
+        self.image = ENEMY_IMAGE_LIST[self.type_ID - 1]
         self.rect = self.getSpriteRect()
         self.rect_center = self.rect.center
 

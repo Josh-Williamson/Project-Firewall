@@ -8,7 +8,7 @@
 
     },
     {
-      "type_id": 0,
+      "type_id": 1,
       "name": "Basic",
       "damage": 1,
       "speed": 120
