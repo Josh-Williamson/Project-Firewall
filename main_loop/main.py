@@ -18,6 +18,8 @@ SURFACE = pygame.display.get_surface()
 LEVEL = 1
 KEY_PRESSED = 0
 
+
+
 loadAttributeLists()
 loadImageLists()
 
@@ -43,8 +45,6 @@ while keep_game_running:
     if len(ENEMY_SPRITE_GROUP) == 0:
         LEVEL += 1
         gridmap = levelInitialize(LEVEL, window, gridmap)
-
-
 
     window.updateBackground()
     gridmap.drawPath()
