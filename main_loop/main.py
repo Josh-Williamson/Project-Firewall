@@ -16,7 +16,7 @@ window = Window()
 
 SURFACE = pygame.display.get_surface()
 KEY_PRESSED = 0
-LEVEL = 2
+LEVEL = 1
 spawn_timer = 0
 
 loadAttributeLists()
