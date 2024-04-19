@@ -35,7 +35,7 @@ base = Base()
 ENEMY_SPRITE_GROUP.draw(SURFACE)
 ENEMY_WAVE_LIST = pygame.sprite.Group()
 
-levelInitialize(window.level, window, gridmap)
+levelInitialize(LEVEL, window, gridmap)
 
 keep_game_running = True
 
@@ -48,8 +48,8 @@ while keep_game_running:
         spawn_timer = 0
 
     if ENEMY_SPRITE_GROUP.sprites() is None:
-        window.level += 1
-        gridmap = levelInitialize(window.level, gridmap, window)
+        LEVEL += 1
+        gridmap = levelInitialize(LEVEL, gridmap, window)
 
 
 
