@@ -1,7 +1,7 @@
 import pygame
 
 from base import Base
-from enemies import ENEMY_SPRITE_GROUP, Enemy, collisionDamageHandler
+from enemies import ENEMY_SPRITE_GROUP, Enemy, collisionDamageHandler, enemyWaveSpawn
 from gridmap import GridMap
 from projectiles import PROJECTILE_SPRITE_GROUP
 from towers import TOWER_SPRITE_GROUP
@@ -15,8 +15,9 @@ pygame.init()
 window = Window()
 
 SURFACE = pygame.display.get_surface()
-LEVEL = 1
 KEY_PRESSED = 0
+LEVEL = 1
+spawn_timer = 0
 
 loadAttributeLists()
 loadImageLists()
@@ -24,21 +25,27 @@ loadImageLists()
 
 FPS = pygame.time.Clock()
 FPS.tick(60)
+last_enemy_spawn = pygame.time.get_ticks()
 
 gridmap = GridMap(1)
 gridmap.initiateGridMap(1)
 
 base = Base()
 
-enemy_1 = Enemy(gridmap, 1)
-
 ENEMY_SPRITE_GROUP.draw(SURFACE)
+ENEMY_WAVE_LIST = pygame.sprite.Group()
 
 levelInitialize(LEVEL, window, gridmap)
 
 keep_game_running = True
 
 while keep_game_running:
+
+    spawn_timer = spawn_timer + 1
+    print (spawn_timer)
+
+    if enemyWaveSpawn(spawn_timer, gridmap, LEVEL):
+        spawn_timer = 0
 
     if ENEMY_SPRITE_GROUP.sprites() is None:
         LEVEL += 1
