@@ -40,6 +40,9 @@ class Projectile(pygame.sprite.Sprite):
         if self.position_vector.distance_to(self.spawn_position) >= self.range:
             self.kill()
             return
+        if self.target not in ENEMY_SPRITE_GROUP:
+            self.kill()
+            return
         self.chaseTarget()
         self.rect = self.getSpriteRect()
 

@@ -16,11 +16,11 @@ window = Window()
 
 SURFACE = pygame.display.get_surface()
 KEY_PRESSED = 0
-LEVEL = 1
+LEVEL = 0
 spawn_timer = 0
 
 
-
+LEVEL += 1
 loadAttributeLists()
 loadImageLists()
 
@@ -32,8 +32,6 @@ gridmap = GridMap(1)
 gridmap.initiateGridMap(1)
 
 base = Base()
-
-ENEMY_SPRITE_GROUP.draw(SURFACE)
 
 levelInitialize(LEVEL, window, gridmap)
 
@@ -47,7 +45,7 @@ while keep_game_running:
     if enemyWaveSpawn(spawn_timer, gridmap, LEVEL):
         spawn_timer = 0
 
-    if ENEMY_SPRITE_GROUP.sprites() is None:
+    if len(ENEMY_SPRITE_GROUP) == 0 and spawn_timer >=200:
         LEVEL += 1
         gridmap = levelInitialize(LEVEL, window, gridmap)
 
