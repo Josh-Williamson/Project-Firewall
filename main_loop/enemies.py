@@ -1,15 +1,19 @@
 import json
 import math
 
+from enemy_wave_data import *
 from base import *
+from enemy_wave_data import *
 
 TILE_TYPES = 1
 ENEMY_TYPES = 3
+spawn_rate = 80
 
 ENEMY_IMAGE_LIST = []
 ENEMY_ATTRIBUTE_LIST = []
 ENEMY_SPRITE_GROUP = pygame.sprite.RenderUpdates()
 ENEMY_SPRITE_GROUP.__init__()
+
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -146,3 +150,10 @@ def collisionDamageHandler(collision_dict):
             for projectile in collision_projectile_list:
                 damage += projectile.getDamage()
             enemy.takeDamage(damage)
+
+def enemyWaveSpawn(spawn_timer, gridmap, level):
+    if len(ENEMY_WAVE_LIST[level]) == 0:
+        return False
+    elif spawn_timer >= spawn_rate:
+        Enemy(gridmap, ENEMY_WAVE_LIST[level].pop(0))
+        return True
