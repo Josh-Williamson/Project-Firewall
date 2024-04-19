@@ -15,6 +15,7 @@ class Window():
         self.surface = pygame.surface.Surface([self.width, self.height])
 
         self.image = self.getBackground(1)
+        
 
     def updateBackground(self):
         self.display.blit(self.image, (0,0))
@@ -23,5 +24,3 @@ class Window():
         background_image = pygame.image.load(f"assets/backgrounds/{level}.png").convert_alpha()
         image = pygame.transform.scale(background_image, (self.width, self.height))
         return image
-
-

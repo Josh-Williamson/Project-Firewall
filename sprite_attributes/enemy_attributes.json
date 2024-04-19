@@ -8,18 +8,18 @@
       "speed": 0
     },
     {
-      "type_id": 0,
+      "type_id": 1,
       "name": "Basic",
       "hp": 10,
       "damage": 1,
       "speed": 30
     },
-	{
+    {
       "type_id": 2,
       "name": "Quick",
       "hp": 4,
       "damage": 1,
-      "speed": 30
-	}
+      "speed": 60
+    }
   ]
 }
