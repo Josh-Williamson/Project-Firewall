@@ -49,6 +49,10 @@ while keep_game_running:
         LEVEL += 1
         gridmap = levelInitialize(LEVEL, window, gridmap)
 
+    if LEVEL >= 4:
+        keep_game_running = False
+        print("Game Complete")
+
     window.updateBackground()
     gridmap.drawPath()
 
