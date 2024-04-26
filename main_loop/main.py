@@ -16,7 +16,7 @@ window = Window()
 
 SURFACE = pygame.display.get_surface()
 KEY_PRESSED = 0
-LEVEL = 0
+LEVEL = 2
 spawn_timer = 0
 
 
@@ -48,6 +48,10 @@ while keep_game_running:
     if len(ENEMY_SPRITE_GROUP) == 0 and spawn_timer >=200:
         LEVEL += 1
         gridmap = levelInitialize(LEVEL, window, gridmap)
+
+    if LEVEL >= 4:
+        keep_game_running = False
+        print("Game Complete")
 
     window.updateBackground()
     gridmap.drawPath()
